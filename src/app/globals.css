@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f3f1ee;
+  --surface: #e8e3d5;
+  --navy: #0f1d2e;
+  --gold: #9a7728;
+  --gold-light: #c4a84f;
+  --muted: #5c6b7a;
+  --border: #c4b99a;
+  --white: #ffffff;
+  --positive: #166534;
+  --negative: #991b1b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  font-family: var(--font-sans, Inter, system-ui, sans-serif);
+  line-height: 1.6;
+  color: var(--navy);
+  background: var(--bg);
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, .serif {
+  font-family: var(--font-serif, 'EB Garamond', Georgia, serif);
+}
+
+.mono, code, .data-font {
+  font-family: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
+}
+
+/* ─── Helper classes ─── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.value-positive {
+  color: var(--positive);
+}
+
+.value-negative {
+  color: var(--negative);
+}
+
+.value-neutral {
+  color: var(--muted);
+}
+
+.rank-high {
+  color: var(--positive);
+  font-weight: 600;
+}
+
+.rank-mid {
+  color: var(--muted);
+}
+
+.rank-low {
+  color: var(--negative);
+}
+
+/* ─── Hover effects ─── */
+.breadcrumb-link {
+  transition: opacity 0.2s ease;
+}
+.breadcrumb-link:hover {
+  opacity: 0.6 !important;
+}
+
+.social-icon:hover {
+  opacity: 0.5 !important;
+}
+
+.dataset-card {
+  box-shadow: 2px 2px 0 var(--navy);
+  transition: box-shadow 0.15s ease;
+}
+
+.dataset-card:hover {
+  box-shadow: 4px 4px 0 var(--navy);
+}
+
+.download-btn:hover {
+  background: var(--navy) !important;
+  color: var(--bg) !important;
+  border-color: var(--navy) !important;
+}
+
+/* ─── Mobile responsive ─── */
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column !important;
+    gap: 40px !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Focus ring ─── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background-color: rgba(154, 119, 40, 0.2);
+  color: var(--navy);
 }
