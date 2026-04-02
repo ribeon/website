@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f3f1ee;
-  --surface: #e8e3d5;
-  --navy: #0f1d2e;
-  --gold: #9a7728;
-  --gold-light: #c4a84f;
-  --muted: #5c6b7a;
-  --border: #c4b99a;
-  --white: #ffffff;
-  --positive: #166534;
-  --negative: #991b1b;
+  --bg: #000000;
+  --surface: #111111;
+  --navy: #f0ede8;
+  --gold: #d4a017;
+  --gold-light: #e8c050;
+  --muted: #666666;
+  --border: #222222;
+  --white: #0a0a0a;
+  --positive: #4ade80;
+  --negative: #f87171;
 }
 
 * {
@@ -80,18 +80,18 @@ h1, h2, h3, h4, .serif {
 }
 
 .dataset-card {
-  box-shadow: 2px 2px 0 var(--navy);
+  box-shadow: 2px 2px 0 var(--gold);
   transition: box-shadow 0.15s ease;
 }
 
 .dataset-card:hover {
-  box-shadow: 4px 4px 0 var(--navy);
+  box-shadow: 4px 4px 0 var(--gold);
 }
 
 .download-btn:hover {
-  background: var(--navy) !important;
+  background: var(--gold) !important;
   color: var(--bg) !important;
-  border-color: var(--navy) !important;
+  border-color: var(--gold) !important;
 }
 
 /* ─── Mobile responsive ─── */
@@ -110,6 +110,6 @@ h1, h2, h3, h4, .serif {
 
 /* ─── Selection ─── */
 ::selection {
-  background-color: rgba(154, 119, 40, 0.2);
+  background-color: rgba(212, 160, 23, 0.25);
   color: var(--navy);
 }

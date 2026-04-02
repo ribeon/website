@@ -55,8 +55,8 @@ export default function RootLayout({
       className={`${ebGaramond.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        {/* Thin navy accent line */}
-        <div style={{ background: "var(--navy)", height: "5px", width: "100%" }} />
+        {/* Thin gold accent line */}
+        <div style={{ background: "var(--gold)", height: "5px", width: "100%" }} />
 
         {/* Persistent breadcrumb — always in the same position */}
         <SiteBreadcrumb />

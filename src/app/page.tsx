@@ -50,7 +50,7 @@ export default function Home() {
               className="dataset-card"
               style={{
                 background: 'var(--white)',
-                border: '1px solid var(--navy)',
+                border: '1px solid var(--border)',
                 overflow: 'hidden',
                 width: '300px',
                 display: 'flex',
@@ -75,7 +75,7 @@ export default function Home() {
               className="dataset-card"
               style={{
                 background: 'var(--white)',
-                border: '1px solid var(--navy)',
+                border: '1px solid var(--border)',
                 overflow: 'hidden',
                 width: '300px',
                 display: 'flex',
@@ -100,7 +100,7 @@ export default function Home() {
               className="dataset-card"
               style={{
                 background: 'var(--white)',
-                border: '1px solid var(--navy)',
+                border: '1px solid var(--border)',
                 overflow: 'hidden',
                 width: '300px',
                 display: 'flex',
