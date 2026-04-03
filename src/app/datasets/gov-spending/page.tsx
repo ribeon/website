@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { GovSpendingExplorer } from '@/components/data/GovSpendingExplorer'
 import { SignalTimeSeriesChart } from '@/components/charts/SignalTimeSeriesChart'
 import { QuintileBarChart } from '@/components/charts/QuintileBarChart'
@@ -19,7 +20,11 @@ const Divider = () => (
 
 export default function GovSpendingPage() {
   return (
-    <div style={{ padding: '36px 40px', maxWidth: '1100px' }}>
+    <div className="dataset-detail" style={{ padding: '112px clamp(24px, 5vw, 80px) 80px', maxWidth: '1200px' }}>
+
+      <Link href="/research" className="btn-outline" style={{ marginBottom: '40px', fontSize: '12px', padding: '10px 20px' }}>
+        ← Back to Research
+      </Link>
 
       {/* Title block */}
       <div style={{ marginBottom: '24px' }}>

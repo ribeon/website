@@ -27,7 +27,7 @@ export function StatBar({ stats }: StatBarProps) {
             flex: '1 1 140px',
             padding: '14px 20px',
             borderRight: i < stats.length - 1 ? '1px solid var(--border)' : 'none',
-            background: s.highlight ? 'var(--navy)' : 'var(--white)',
+            background: s.highlight ? 'var(--stat-highlight-bg, var(--navy))' : 'var(--white)',
           }}
         >
           <div

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { GovHousingExplorer } from '@/components/data/GovHousingExplorer'
 import { StatBar } from '@/components/StatBar'
 import { SignalEvidenceCard } from '@/components/SignalEvidenceCard'
@@ -15,7 +16,11 @@ const Divider = () => (
 
 export default function GovHousingPage() {
   return (
-    <div style={{ padding: '36px 40px', maxWidth: '1100px' }}>
+    <div className="dataset-detail" style={{ padding: '112px clamp(24px, 5vw, 80px) 80px', maxWidth: '1200px' }}>
+
+      <Link href="/research" className="btn-outline" style={{ marginBottom: '40px', fontSize: '12px', padding: '10px 20px' }}>
+        ← Back to Research
+      </Link>
 
       {/* Title block */}
       <div style={{ marginBottom: '24px' }}>

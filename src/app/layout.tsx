@@ -1,26 +1,29 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Inter, JetBrains_Mono } from "next/font/google";
+import { Sora, Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
-import { SiteBreadcrumb } from "@/components/SiteBreadcrumb";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
-const ebGaramond = EB_Garamond({
+const sora = Sora({
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  weight: ["200", "300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-display",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-serif",
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
-  variable: "--font-sans",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  variable: "--font-mono",
+  variable: "--font-body",
 });
 
 export const metadata: Metadata = {
@@ -45,22 +48,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
-      className={`${ebGaramond.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${sora.variable} ${playfair.variable} ${dmSans.variable}`}
     >
       <body>
-        {/* Thin navy accent line */}
-        <div style={{ background: "var(--navy)", height: "5px", width: "100%" }} />
-
-        {/* Persistent breadcrumb — always in the same position */}
-        <SiteBreadcrumb />
-
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
