@@ -36,7 +36,7 @@ export default function Research() {
             </div>
             <div className="dataset-visual">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=700&q=80" alt="US Capitol government spending" />
+              <img src="/images/pentagon-aerial.jpg" alt="Pentagon federal contract spending" />
             </div>
           </div>
         </AnimateIn>
@@ -67,7 +67,7 @@ export default function Research() {
             </div>
             <div className="dataset-visual">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=700&q=80" alt="Weather satellite climate data" />
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=700&q=80" alt="Wheat field commodity weather signals" />
             </div>
           </div>
         </AnimateIn>
