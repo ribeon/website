@@ -15,18 +15,27 @@ export const threeLinkProof = [
   { commodity: 'Heating Oil (HO)',   link1: 0.523, link2: 0.894, link3: 0.444, permP: 0.001 },
   { commodity: 'RBOB Gasoline (RB)', link1: 0.468, link2: 0.894, link3: 0.382, permP: 0.006 },
   { commodity: 'Crude Oil (CL)',     link1: 0.383, link2: 0.894, link3: 0.296, permP: 0.043 },
-  { commodity: 'Corn (CORN)',        link1: 0.459, link2: 0.894, link3: 0.479, permP: 0.001 },
+  { commodity: 'Corn (CORN)',        link1: 0.459, link2: 0.894, link3: 0.479, permP: 0.0002 },
 ]
 
-// Activation-gated backtest results (corrected causal regime gate)
-// OOS 2021-01-04 → 2024-01-29, 153 weeks.
-// Score = 3 (all three gates active) is the flagship tier for RB and CORN.
-// Score ≥ 2 is the recommended tier for HO and CL (regime gate filters HO's best weeks).
+// Activation-gated backtest — score = 3 results (corrected causal regime gate)
+// OOS 2021-01-04 → 2024-02-02, 154 weeks. Source: README canonical numbers.
+// Full stats (trades, hit rate) are available for score=3 only.
+// HO and CL are repositioned to score≥2 as their recommended tier (see atlasScore2Sharpes).
 export const atlasBacktestResults = [
-  { signal: 'RBOB Gasoline / NE HDD', tier: 'score = 3', sharpe: 3.33, ciLow: 0.50, ciHigh: 8.26, hitRate: 77, trades: 29, oracleSharpe: 3.56 },
-  { signal: 'Corn / NE HDD',          tier: 'score = 3', sharpe: 4.72, ciLow: 2.32, ciHigh: 8.90, hitRate: 79, trades: 18, oracleSharpe: 4.66 },
-  { signal: 'Heating Oil / NE HDD',   tier: 'score ≥ 2', sharpe: 1.88, ciLow: 0.40, ciHigh: 5.20, hitRate: 62, trades: 54, oracleSharpe: 1.99 },
-  { signal: 'Crude Oil / NE HDD',     tier: 'score ≥ 2', sharpe: 2.39, ciLow: 0.60, ciHigh: 6.10, hitRate: 67, trades: 34, oracleSharpe: 2.57 },
+  { signal: 'Heating Oil / NE HDD',   sharpe: 0.83, hitRate: 60, trades: 15, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 1.99 },
+  { signal: 'RBOB Gasoline / NE HDD', sharpe: 3.56, hitRate: 77, trades: 30, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 3.56 },
+  { signal: 'Crude Oil / NE HDD',     sharpe: 7.93, hitRate: 100, trades: 3,  ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 2.57 },
+  { signal: 'Corn / NE HDD',          sharpe: 4.66, hitRate: 79, trades: 19, ciLow: 2.33, ciHigh: 8.90, oracleSharpe: 4.66 },
+]
+
+// Score ≥ 2 Sharpe comparison (README only provides Sharpe at this tier, no trades/hit rate)
+// HO and CL recommended tier; RB and CORN are stronger at score=3.
+export const atlasScore2Sharpes = [
+  { signal: 'Heating Oil / NE HDD',   sharpeScore3: 0.83,  sharpeScore2: 1.99, read: 'score≥2 is the HO primary tier — regime gate filters the best HO weeks' },
+  { signal: 'RBOB Gasoline / NE HDD', sharpeScore3: 3.56,  sharpeScore2: 1.20, read: 'score=3 isolates the strongest RB weeks; bootstrap 5th %ile 0.76' },
+  { signal: 'Crude Oil / NE HDD',     sharpeScore3: 7.93,  sharpeScore2: 2.57, read: 'score=3 too thin (n=3); score≥2 is the CL primary tier' },
+  { signal: 'Corn / NE HDD',          sharpeScore3: 4.66,  sharpeScore2: 1.58, read: 'bootstrap 5th %ile 2.33 — lower bound comfortably above 2.0' },
 ]
 
 // 2022 strict OOS reference results (no activation filter, lag-0 strategy)

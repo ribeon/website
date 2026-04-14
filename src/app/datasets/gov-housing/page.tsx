@@ -100,7 +100,8 @@ export default function GovHousingPage() {
             signalName="subsidy_flow_score"
             description="Federal grant and loan intensity. Captures HUD/USDA assistance flow by county — Section 8, CDBG, HOME programs. Federal subsidies are countercyclical — they concentrate in distressed markets, not booming suburbs. Useful as a market distress indicator; not a price appreciation predictor."
             metrics={[
-              { label: '1Q IC vs HPI', value: '+0.004', positive: false },
+              { label: '1Q IC vs HPI', value: '+0.006' },
+              { label: '1Q t-stat', value: '1.03' },
               { label: 'Interpretation', value: 'Distress proxy' },
             ]}
           />
@@ -130,7 +131,7 @@ export default function GovHousingPage() {
             metrics={[
               { label: 'OOS IC (16 names)', value: '+0.180', positive: true },
               { label: 'OOS t-stat', value: '3.42', positive: true },
-              { label: 'OOS Hit Rate', value: '48%', positive: true },
+              { label: 'OOS Hit Rate', value: '48%' },
             ]}
           />
         </div>
