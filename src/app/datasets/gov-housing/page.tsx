@@ -6,7 +6,7 @@ import { ICTimeSeriesChart } from '@/components/charts/ICTimeSeriesChart'
 import {
   housingPermitICSeries,
   housingPermitQuintileReturns,
-  homebuilderContrICSeries,
+  homebuilderSectorAdaptiveICSeries,
 } from '@/lib/data/gov-housing-evidence'
 
 const Divider = () => (
@@ -30,23 +30,23 @@ export default function GovHousingPage() {
           Federal Housing & Construction
         </h1>
         <p style={{ fontSize: '12px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px' }}>
-          2026 &nbsp;·&nbsp; 4,160 counties &nbsp;·&nbsp; 57 states &amp; territories &nbsp;·&nbsp; FY2010–2025
+          2026 &nbsp;·&nbsp; 3,135 counties &nbsp;·&nbsp; 911 metro areas &nbsp;·&nbsp; FY2010–2025
         </p>
       </div>
 
       {/* Hero */}
       <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '28px' }}>
         <p>
-          Building permit acceleration and federal construction spending precede home price appreciation by one to four quarters. This dataset fuses $933B in federal housing spending with Census permits, LIHTC allocations, and SAM.gov pipeline into a signal panel across 4,160 counties — including a <strong style={{ color: 'var(--navy)' }}>countercyclical homebuilder signal</strong> derived from federal subsidy flows.
+          Building permit acceleration precedes home price appreciation by one to four quarters. This dataset fuses $933B in federal housing spending with Census permits, LIHTC allocations, and SAM.gov pipeline into a signal panel across 3,135 counties and 911 metro areas — including a <strong style={{ color: 'var(--navy)' }}>sector-adaptive homebuilder equity signal</strong> mapped to public homebuilder footprints.
         </p>
       </div>
 
       <StatBar stats={[
-        { label: 'Counties', value: '4,160' },
-        { label: 'Metro areas', value: '917 MSAs' },
-        { label: 'Permit IC (1Q)', value: '+0.097', subtitle: 't = 5.98', highlight: true },
+        { label: 'Counties', value: '3,135' },
+        { label: 'Metro areas', value: '911 MSAs' },
+        { label: 'Permit IC (1Q)', value: '+0.099', subtitle: 't = 5.91', highlight: true },
         { label: 'Data sources', value: '7 fused' },
-        { label: 'Homebuilder OOS hit', value: '68%', subtitle: 'contrarian signal' },
+        { label: 'Homebuilder OOS hit', value: '65%', subtitle: 'sector-adaptive signal' },
       ]} />
 
       {/* The Data */}
@@ -78,28 +78,30 @@ export default function GovHousingPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px', marginBottom: '32px' }}>
           <SignalEvidenceCard
             signalName="permit_sf_yoy"
-            description="Single-family permit year-over-year momentum. Captures market acceleration — a county with 200 units vs. 150 last year reveals strengthening demand. Momentum predicts home prices; raw permit level captures county size."
+            description="Single-family permit year-over-year momentum. Captures market acceleration — a county with 200 units vs. 150 last year reveals strengthening demand. The strongest standalone predictor of home price appreciation. Momentum predicts prices; raw permit level captures county size."
             metrics={[
-              { label: '1Q IC vs HPI', value: '+0.097', positive: true },
-              { label: '1Q t-stat', value: '5.98', positive: true },
-              { label: '4Q IC', value: '+0.112', positive: true },
+              { label: '1Q IC vs HPI', value: '+0.099', positive: true },
+              { label: '1Q t-stat', value: '5.91', positive: true },
+              { label: '4Q IC', value: '+0.129', positive: true },
               { label: '4Q t-stat', value: '6.89', positive: true },
             ]}
           />
           <SignalEvidenceCard
             signalName="construction_score"
-            description="Composite new supply signal. Blends construction spending momentum, BPS permits, LIHTC new units, new construction intensity, and SAM.gov forward pipeline. Designed for RE private equity and REIT investors tracking physical supply pipeline."
+            description="Composite supply signal. Blends permit momentum (25%), construction spending YoY (25%), LIHTC new units (20%), new construction intensity (15%), and SAM.gov forward pipeline (15%). Strengthened materially after switching the permit component from raw level to YoY momentum."
             metrics={[
-              { label: '1Q IC vs HPI', value: '+0.042', positive: true },
-              { label: '1Q t-stat', value: '2.21', positive: true },
+              { label: '1Q IC vs HPI', value: '+0.052', positive: true },
+              { label: '1Q t-stat', value: '6.53', positive: true },
+              { label: '4Q IC', value: '+0.067', positive: true },
+              { label: '4Q t-stat', value: '7.47', positive: true },
             ]}
           />
           <SignalEvidenceCard
             signalName="subsidy_flow_score"
-            description="Federal grant and loan intensity. Captures HUD/USDA assistance flow by county — Section 8, CDBG, HOME programs. Important: federal subsidies are countercyclical — they concentrate in distressed markets, not booming ones. High subsidy flow indicates a stressed local market."
+            description="Federal grant and loan intensity. Captures HUD/USDA assistance flow by county — Section 8, CDBG, HOME programs. Federal subsidies are countercyclical — they concentrate in distressed markets, not booming suburbs. Useful as a market distress indicator; not a price appreciation predictor."
             metrics={[
-              { label: '1Q IC vs HPI', value: '−0.011', negative: true },
-              { label: 'Interpretation', value: 'Distress proxy', negative: true },
+              { label: '1Q IC vs HPI', value: '+0.004', positive: false },
+              { label: 'Interpretation', value: 'Distress proxy' },
             ]}
           />
         </div>
@@ -108,25 +110,27 @@ export default function GovHousingPage() {
           Signals — Homebuilder Equity
         </h2>
         <p style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '20px', fontFamily: 'var(--font-mono)' }}>
-          8 tickers × 64 quarters &nbsp;·&nbsp; footprint-weighted from 10-K segment disclosures
+          16 tradable housing-sensitive names &nbsp;·&nbsp; footprint-weighted from point-in-time 10-K disclosures
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px' }}>
           <SignalEvidenceCard
-            signalName="hb_contrarian_index"
-            description="Countercyclical homebuilder signal. Federal subsidy intensity acts as a proxy for distressed market exposure — builders with low subsidy footprint are positioned in markets with the strongest organic private demand. The primary statistically significant OOS equity signal."
+            signalName="hb_sector_adaptive_index"
+            description="Sector-aware composite: for homebuilders, 40% monthly permit YoY + 40% permit value + 20% price tier; for building materials names, 70% monthly permit YoY + 30% permit value. Maps monthly BPS state-level permit flow into each ticker's geographic footprint. Current lead OOS return signal."
             metrics={[
-              { label: 'OOS IC', value: '+0.130', positive: true },
-              { label: 'OOS t-stat', value: '2.05', positive: true },
-              { label: 'OOS Hit Rate', value: '68%', positive: true },
+              { label: 'OOS IC (16 names)', value: '+0.204', positive: true },
+              { label: 'OOS t-stat', value: '4.25', positive: true },
+              { label: 'OOS Hit Rate', value: '65%', positive: true },
+              { label: 'OOS period', value: '2020Q1–2025Q3' },
             ]}
           />
           <SignalEvidenceCard
-            signalName="hb_alpha_index"
-            description="Composite signal blending the contrarian index with permit value momentum. Combines distress-avoidance with an average selling price proxy to produce the highest OOS IC in the signal set."
+            signalName="hb_permit_yoy_index"
+            description="Monthly-state BPS permit YoY rank mapped into each ticker's geographic footprint. Strongest pure permit-flow equity signal. Sector-agnostic; use as a complement to hb_sector_adaptive_index or as a standalone permit momentum proxy."
             metrics={[
-              { label: 'OOS IC', value: '+0.134', positive: true },
-              { label: 'OOS Hit Rate', value: '59%', positive: true },
+              { label: 'OOS IC (16 names)', value: '+0.180', positive: true },
+              { label: 'OOS t-stat', value: '3.42', positive: true },
+              { label: 'OOS Hit Rate', value: '48%', positive: true },
             ]}
           />
         </div>
@@ -141,10 +145,10 @@ export default function GovHousingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
           <p style={{ marginBottom: '12px' }}>
-            <strong style={{ color: 'var(--navy)' }}>Geographic channel:</strong> Permit acceleration is observable shortly after quarter end — before official home price indices update. Counties in the top permit momentum quintile appreciate ~3.5% over the following quarter vs. ~0.8% for the bottom quintile.
+            <strong style={{ color: 'var(--navy)' }}>Geographic channel:</strong> Permit acceleration is observable shortly after quarter end — before official home price indices update. Counties in the top permit momentum quintile appreciate ~3.5% over the following quarter vs. ~0.8% for the bottom quintile. The 4-quarter IC (+0.129) is stronger than 1-quarter (+0.099), indicating the permit supply signal strengthens with a longer return horizon.
           </p>
           <p>
-            <strong style={{ color: 'var(--navy)' }}>Homebuilder channel:</strong> Federal housing subsidies concentrate in distressed markets. Builders with heavy footprint exposure to high-subsidy regions have historically underperformed those focused on markets with strong private demand. The contrarian index captures this dynamic with a 68% OOS hit rate.
+            <strong style={{ color: 'var(--navy)' }}>Homebuilder channel:</strong> The sector-adaptive index maps monthly BPS permit flow into each homebuilder&apos;s state-weighted footprint, applying sector-specific transmission weights. It has produced OOS IC +0.204 (t=4.25) across 16 tradable housing-sensitive names from 2020Q1 through 2025Q3 — 23 quarters of clean out-of-sample validation.
           </p>
         </div>
       </section>
@@ -164,8 +168,8 @@ export default function GovHousingPage() {
             </p>
             <ICTimeSeriesChart
               data={housingPermitICSeries}
-              meanIC={0.097}
-              tStat={5.98}
+              meanIC={0.099}
+              tStat={5.91}
             />
           </div>
           <div>
@@ -182,15 +186,15 @@ export default function GovHousingPage() {
 
         <div>
           <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-            Homebuilder contrarian IC — OOS period begins 2020
+            hb_sector_adaptive_index IC — OOS period begins 2020Q1
           </p>
           <ICTimeSeriesChart
-            data={homebuilderContrICSeries}
-            meanIC={0.130}
-            tStat={2.05}
+            data={homebuilderSectorAdaptiveICSeries}
+            meanIC={0.204}
+            tStat={4.25}
           />
           <p style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '8px', fontFamily: 'var(--font-mono)' }}>
-            In-sample (pre-2020) · Out-of-sample (2020+). OOS IC strengthens as private-demand vs. subsidized-market divergence intensifies.
+            In-sample (pre-2020) · Out-of-sample (2020Q1–2025Q3, 23 quarters). OOS IC +0.204, t=4.25 across 16 tradable housing-sensitive names.
           </p>
         </div>
       </section>
@@ -204,7 +208,7 @@ export default function GovHousingPage() {
         </h2>
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', padding: '16px 20px', border: '1px solid var(--border)', background: 'var(--surface)' }}>
           <p style={{ marginBottom: '8px' }}>
-            Top quintile counties on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>permit_sf_yoy</code> appreciate <strong style={{ color: 'var(--navy)' }}>~3.5% per quarter</strong> vs. ~0.8% for the bottom quintile — a 2.7pp spread that persists across market regimes. The homebuilder contrarian signal identified the correct relative winner <strong style={{ color: 'var(--navy)' }}>68% of OOS quarters</strong>.
+            Top quintile counties on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>permit_sf_yoy</code> appreciate <strong style={{ color: 'var(--navy)' }}>~3.5% per quarter</strong> vs. ~0.8% for the bottom quintile — a 2.7pp spread that persists across market regimes. The IC strengthens at 4-quarter horizon (4Q IC +0.129 vs. 1Q IC +0.099). The <code style={{ fontSize: '11px', color: 'var(--gold)' }}>hb_sector_adaptive_index</code> identified the correct relative homebuilder winner <strong style={{ color: 'var(--navy)' }}>65% of OOS quarters</strong> across 23 quarters (2020Q1–2025Q3).
           </p>
           <p style={{ fontSize: '11px', color: 'var(--border)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
             Ribeon provides data, not financial advice. Strategy construction is the buyer&apos;s domain.

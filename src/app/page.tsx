@@ -41,15 +41,15 @@ export default function Home() {
       <AnimateIn>
         <section className="stats-strip">
           <div className="stat">
-            <div className="stat-number">$6.65T</div>
+            <div className="stat-number">$6.58T</div>
             <div className="stat-text">In Obligations Tracked</div>
           </div>
           <div className="stat">
-            <div className="stat-number">2,388</div>
+            <div className="stat-number">1,270</div>
             <div className="stat-text">SEC Tickers Mapped</div>
           </div>
           <div className="stat">
-            <div className="stat-number">4,160</div>
+            <div className="stat-number">3,135</div>
             <div className="stat-text">Counties Covered</div>
           </div>
           <div className="stat">

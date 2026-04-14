@@ -6,6 +6,7 @@ import { SignalLeadChart } from '@/components/charts/SignalLeadChart'
 import {
   threeLinkProof,
   atlasBacktestResults,
+  atlasReferenceResults,
   atlasHddVsHoReturn,
 } from '@/lib/data/weather-evidence'
 
@@ -43,9 +44,9 @@ export default function WeatherPage() {
 
       <StatBar stats={[
         { label: 'Validated signals', value: 'HO, RB, CL, CORN' },
-        { label: 'Model → HO r', value: '+0.533', subtitle: 'perm p = 0.001', highlight: true },
+        { label: 'Model → HO r', value: '+0.444', subtitle: 'OOS 3yr, n=48', highlight: true },
         { label: 'Model → ERA5 r', value: '+0.894', subtitle: 'forecast skill' },
-        { label: 'OOS Sharpe', value: '4.1 – 5.2', subtitle: '2022 backtest' },
+        { label: 'CORN Sharpe (score=3)', value: '4.72', subtitle: '79% hit, 18 trades' },
         { label: 'Update cadence', value: 'Weekly' },
       ]} />
 
@@ -96,10 +97,10 @@ export default function WeatherPage() {
             signalName="hdd_anomaly_z"
             description="US Northeast Heating Degree Day z-score. Measures the AI model's 7-day HDD forecast anomaly relative to a calibration-period baseline. The primary validated signal. A positive anomaly indicates a colder-than-normal week ahead, driving higher demand for heating oil, gasoline, and crude."
             metrics={[
-              { label: 'HO r (OOS)', value: '+0.533', positive: true },
-              { label: 'RB r (OOS)', value: '+0.502', positive: true },
-              { label: 'CL r (OOS)', value: '+0.426', positive: true },
-              { label: 'CORN r (OOS)', value: '+0.486', positive: true },
+              { label: 'HO r (3yr OOS)', value: '+0.444', positive: true },
+              { label: 'RB r (3yr OOS)', value: '+0.382', positive: true },
+              { label: 'CL r (3yr OOS)', value: '+0.296', positive: true },
+              { label: 'CORN r (3yr OOS)', value: '+0.479', positive: true },
             ]}
           />
           <SignalEvidenceCard
@@ -128,10 +129,10 @@ export default function WeatherPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
           <p style={{ marginBottom: '12px' }}>
-            Each signal is validated through a structured causal framework: weather drives commodity prices, the AI model forecasts weather accurately, and therefore model forecasts carry predictive content for prices. Each step is independently verified and statistically significant.
+            Each signal is validated through a structured causal framework: weather drives commodity prices, the AI model forecasts weather accurately, and therefore model forecasts carry predictive content for prices. Each step is independently verified and statistically significant. The primary OOS window spans 2021–2023 (n=48 winter weeks); 2021–2024 results are also available (n=51).
           </p>
           <p>
-            <strong style={{ color: 'var(--navy)' }}>Why Northeast HDD?</strong> Demand variability per degree-anomaly is highest in the Northeast. NE HDD is the primary driver of heating oil and gasoline demand, with secondary effects on Corn through energy input costs — confirmed across all 7 regions.
+            <strong style={{ color: 'var(--navy)' }}>Why Northeast HDD?</strong> Demand variability per degree-anomaly is highest in the Northeast. NE HDD is the primary driver of heating oil and gasoline demand, with secondary effects on Corn through energy input costs — confirmed across all 7 regions. Note: 2023 standalone energy signals were weak (HO r=+0.016); the 3-year combined significance is carried substantially by the 2021–2022 period. Treat as regime-dependent.
           </p>
         </div>
 
@@ -161,10 +162,10 @@ export default function WeatherPage() {
           </table>
         </div>
         <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginBottom: '24px' }}>
-          Signal: US Northeast HDD / Winter (Nov–Mar). Out-of-sample validation period. p-value from non-parametric permutation test.
+          Signal: US Northeast HDD / Winter (Nov–Mar). OOS 2021–2023, n=48 winter weeks. p-value from non-parametric permutation test (10,000 draws).
         </p>
         <p style={{ fontSize: '12px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '24px' }}>
-          <strong style={{ color: 'var(--navy)' }}>Variance explained:</strong> r² ≈ 0.15–0.28 across the 4 validated signals. AI model HDD forecasts explain 15–28% of weekly winter return variance out-of-sample. Directional accuracy: 63–66%.
+          <strong style={{ color: 'var(--navy)' }}>Variance explained:</strong> r² ≈ 0.09–0.23 across the 4 validated signals (3-year OOS). AI model HDD forecasts explain 9–23% of weekly winter return variance out-of-sample. Directional accuracy: 60–79% in activation-gated weeks.
         </p>
 
         {/* Signal vs return chart */}
@@ -176,7 +177,7 @@ export default function WeatherPage() {
             data={atlasHddVsHoReturn}
             signalLabel="NE HDD z-score"
             priceLabel="HO return (%)"
-            caption="AI model 7-day NE HDD anomaly (gold) vs Heating Oil Mon→Mon return (navy dashed). Out-of-sample winter weeks, r = +0.533. Signal available Monday before open — no look-ahead."
+            caption="AI model 7-day NE HDD anomaly (gold) vs Heating Oil Mon→Mon return (navy dashed). 2021–2022 OOS winter weeks (r = +0.533 for 2yr; 3yr combined r = +0.444). Signal available Monday before open — no look-ahead."
           />
         </div>
       </section>
@@ -190,15 +191,15 @@ export default function WeatherPage() {
         </h2>
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '20px' }}>
           <p>
-            OOS backtest results across the 4 validated commodity signals using the model-native anomaly z-score, lag-0 strategy.
+            Activation-gated results using three independent confirmation gates (seasonal window, forecast amplitude, and trailing regime correlation). OOS 2021-01-04 → 2024-01-29 (153 weeks). <strong style={{ color: 'var(--navy)' }}>RB and CORN are the flagship signals</strong> at score=3 (all gates active). HO and CL are repositioned to score≥2 — the regime gate filters out HO&apos;s best weeks at the tighter threshold.
           </p>
         </div>
 
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '700px' }}>
+        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '820px' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                {['Signal', 'OOS Sharpe', 'Hit Rate', 'Trades'].map((h) => (
+                {['Signal', 'Tier', 'Sharpe', 'Hit Rate', 'Trades'].map((h) => (
                   <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                     {h}
                   </th>
@@ -209,6 +210,7 @@ export default function WeatherPage() {
               {atlasBacktestResults.map((row, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.signal}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.tier === 'score = 3' ? 'var(--gold)' : 'var(--muted)' }}>{row.tier}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpe.toFixed(2)}</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hitRate}%</td>
                   <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.trades}</td>
@@ -218,13 +220,50 @@ export default function WeatherPage() {
           </table>
         </div>
 
+        <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginBottom: '20px', maxWidth: '680px' }}>
+          Bootstrap 90% CI: CORN [2.32, 8.90] — lower bound comfortably above 2.0. RB [0.50, 8.26] — lower bound positive. Transaction costs stress-tested; neither flagship drops below Sharpe 3.0 at 10bp round-trip.
+        </p>
+
+        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', marginBottom: '20px' }}>
+          <p style={{ marginBottom: '8px' }}>
+            <strong style={{ color: 'var(--navy)' }}>2022 strict OOS reference (no activation filter):</strong> raw signal power before gating.
+          </p>
+        </div>
+
+        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '20px', maxWidth: '720px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                {['Signal', 'Sharpe (2022)', 'Hit Rate', 'Trades'].map((h) => (
+                  <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {atlasReferenceResults.map((row, i) => (
+                <tr key={i} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.signal}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--positive)' }}>{row.sharpe.toFixed(2)}</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hitRate}%</td>
+                  <td style={{ padding: '7px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>{row.trades}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginBottom: '20px' }}>
+          2022-only, n=18 winter weeks each, lag-0, no activation filter. Shows raw signal strength in the 2021–2022 energy-crisis regime; the activation system is designed to identify this regime in real time.
+        </p>
+
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', padding: '16px 20px', border: '1px solid var(--border)', background: 'var(--surface)' }}>
           <p style={{ marginBottom: '10px', fontWeight: 600, color: 'var(--navy)', fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px' }}>
             Important Caveats
           </p>
           <ul style={{ paddingLeft: '16px', margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <li><strong style={{ color: 'var(--navy)' }}>Backtest period included significant macro events.</strong> Energy signal performance should be evaluated in context of prevailing market conditions before live deployment.</li>
-            <li><strong style={{ color: 'var(--navy)' }}>Winter-only signal.</strong> Active weeks are limited to winter months (Nov–Mar), resulting in a modest number of trades per validation period.</li>
+            <li><strong style={{ color: 'var(--navy)' }}>Regime-dependent signals.</strong> 2023 standalone energy correlation was weak (HO r=+0.016, RB r=−0.018). 3-year significance is driven substantially by the 2021–2022 energy-crisis period. Evaluate regime suitability before deployment.</li>
+            <li><strong style={{ color: 'var(--navy)' }}>Winter-only signal.</strong> Active weeks are limited to Nov–Mar, producing a modest trade count per season. Score=3 activation concentrates on the highest-confidence weeks.</li>
             <li><strong style={{ color: 'var(--navy)' }}>Proper signal calibration is essential.</strong> Signals are calibrated to the model&apos;s own forecast distribution. Ribeon provides pre-calibrated, ready-to-use signal values.</li>
           </ul>
           <p style={{ fontSize: '11px', color: 'var(--border)', fontFamily: 'var(--font-mono)', marginTop: '12px' }}>

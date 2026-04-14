@@ -15,7 +15,7 @@ export default function Research() {
             <div className="dataset-info">
               <div className="dataset-tag">Alternative Dataset</div>
               <h2>Federal Contract Spending</h2>
-              <p>We map $6.65 trillion in federal obligations to 2,388 SEC tickers across 76 quarters, generating signals that surface government spending momentum before it hits consensus estimates.</p>
+              <p>We map $6.58 trillion in federal obligations to 1,270 SEC tickers across 76 quarters, generating signals that surface government spending momentum before it hits consensus estimates.</p>
               <div className="signal-tags">
                 <span className="signal-tag">UGR Surprise</span>
                 <span className="signal-tag">Obligation Momentum</span>
@@ -24,11 +24,11 @@ export default function Research() {
               </div>
               <div className="dataset-stats">
                 <div className="stat-item">
-                  <div className="stat-value">$6.65T</div>
+                  <div className="stat-value">$6.58T</div>
                   <div className="stat-label">Obligations Tracked</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">2,388</div>
+                  <div className="stat-value">1,270</div>
                   <div className="stat-label">SEC Tickers</div>
                 </div>
               </div>
@@ -77,7 +77,7 @@ export default function Research() {
             <div className="dataset-info">
               <div className="dataset-tag">Alternative Dataset</div>
               <h2>Federal Housing &amp; Construction</h2>
-              <p>Tracking $933 billion in federal housing spending across 4,160 counties and 917 metro areas, we produce construction pipeline scores, affordability signals, and subsidy flow data mapped to geographies.</p>
+              <p>Tracking $933 billion in federal housing spending across 3,135 counties and 911 metro areas, we produce construction pipeline scores, affordability signals, and subsidy flow data mapped to geographies.</p>
               <div className="signal-tags">
                 <span className="signal-tag">Pipeline Scores</span>
                 <span className="signal-tag">Affordability Signals</span>
@@ -90,7 +90,7 @@ export default function Research() {
                   <div className="stat-label">Housing Spend</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">4,160</div>
+                  <div className="stat-value">3,135</div>
                   <div className="stat-label">Counties Tracked</div>
                 </div>
               </div>

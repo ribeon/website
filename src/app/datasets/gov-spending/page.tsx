@@ -31,7 +31,7 @@ export default function GovSpendingPage() {
           Federal Contract Spending
         </h1>
         <p style={{ fontSize: '12px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px' }}>
-          2026 &nbsp;·&nbsp; 2,388 tickers &nbsp;·&nbsp; 76 quarters &nbsp;·&nbsp; FY2007–2025
+          2026 &nbsp;·&nbsp; 1,270 tickers &nbsp;·&nbsp; 76 quarters &nbsp;·&nbsp; FY2007–2025
         </p>
       </div>
 
@@ -43,11 +43,11 @@ export default function GovSpendingPage() {
       </div>
 
       <StatBar stats={[
-        { label: 'Tickers covered', value: '2,388' },
+        { label: 'Tickers covered', value: '1,270', subtitle: 'merged signal universe' },
         { label: 'History', value: '76 quarters', subtitle: 'FY2007–2025' },
-        { label: 'Obligations mapped', value: '$6.65T', subtitle: 'prime + subawards' },
+        { label: 'Obligations mapped', value: '$6.58T', subtitle: 'prime + subawards' },
         { label: 'Delivery lag', value: '~3 BD', subtitle: 'vs 30–60d earnings' },
-        { label: 'Signals t ≥ 2', value: '5', highlight: true },
+        { label: 'Signals |t| ≥ 2', value: '7', highlight: true },
       ]} />
 
       {/* The Data */}
@@ -57,7 +57,7 @@ export default function GovSpendingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px' }}>
           <p style={{ marginBottom: '12px' }}>
-            Every prime federal contract obligation from FY2007 through FY2025, resolved to its publicly traded counterpart. Our entity resolution pipeline maps 2,388 SEC tickers across the full historical record, accounting for corporate actions, mergers, and ticker changes to ensure each award is attributed to the correct entity in each quarter.
+            Every prime federal contract obligation from FY2007 through FY2025, resolved to its publicly traded counterpart. Our entity resolution pipeline maps 1,325 tickers (1,270 in the merged quarterly signals panel) across the full historical record, accounting for corporate actions, mergers, and ticker changes with point-in-time effective date ranges.
           </p>
           <p>
             Subaward data adds significant downstream exposure coverage. Every observation is point-in-time compliant — no look-ahead, no survivorship bias — making the dataset suitable for rigorous quantitative research and backtesting.
@@ -75,39 +75,49 @@ export default function GovSpendingPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px' }}>
           <SignalEvidenceCard
-            signalName="obligation_mcap_ratio"
-            description="Government revenue intensity. Prime obligations divided by market cap — measures how much of a company's revenue base is backed by federal contracts. High values indicate a business materially dependent on government demand."
+            signalName="composite_signal"
+            description="Pre-built ex-ante composite: equal-weighted average of ugr_surprise_pct_12q_rank, obligation_qoq_rank, and (1 − agency_hhi_rank). The primary headline predictor. Delivered as a ready-to-use cross-sectional rank — no buyer-side construction required."
             metrics={[
-              { label: 'Mean IC', value: '+1.49%', positive: true },
-              { label: 't-stat', value: '2.72', positive: true },
-              { label: 'Hit rate', value: '62.7%', positive: true },
+              { label: 'Mean IC', value: '+2.08%', positive: true },
+              { label: 't-stat', value: '3.39', positive: true },
+              { label: 'IC IR', value: '0.39', positive: true },
+              { label: 'Hit rate', value: '65.3%', positive: true },
             ]}
           />
           <SignalEvidenceCard
             signalName="ugr_surprise_pct_12q"
             description="Unexpected Government Receivables. Current-quarter obligations vs. the trailing 12-quarter average. A positive value means the company is winning materially more than its long-run rate — a direct observable for the upcoming earnings beat."
             metrics={[
-              { label: 'Mean IC', value: '+1.17%', positive: true },
-              { label: 't-stat', value: '2.59', positive: true },
-              { label: 'Hit rate', value: '62.7%', positive: true },
+              { label: 'Mean IC', value: '+1.32%', positive: true },
+              { label: 't-stat', value: '2.29', positive: true },
+              { label: 'Hit rate', value: '61.6%', positive: true },
             ]}
           />
           <SignalEvidenceCard
-            signalName="obligation_qoq"
-            description="Quarter-over-quarter obligation growth. Simple, clean momentum — did contract awards grow this quarter vs. last? Works as a standalone signal and as a complement to UGR in composite models."
+            signalName="obligation_yoy"
+            description="Year-over-year obligation growth. Captures the annual momentum trend in contract awards — did the company win more in the past four quarters vs. the prior four? Complementary to UGR in the composite."
             metrics={[
-              { label: 'Mean IC', value: '+1.47%', positive: true },
-              { label: 't-stat', value: '2.50', positive: true },
-              { label: 'Hit rate', value: '61.8%', positive: true },
+              { label: 'Mean IC', value: '+1.24%', positive: true },
+              { label: 't-stat', value: '2.18', positive: true },
+              { label: 'Hit rate', value: '56.3%', positive: true },
+            ]}
+          />
+          <SignalEvidenceCard
+            signalName="ugr_surprise_pct_8q"
+            description="Unexpected Government Receivables on an 8-quarter trailing baseline. Shorter memory than the 12-quarter variant — more responsive to recent regime shifts, slightly noisier. Component of the composite."
+            metrics={[
+              { label: 'Mean IC', value: '+1.21%', positive: true },
+              { label: 't-stat', value: '2.03', positive: true },
+              { label: 'Hit rate', value: '54.8%', positive: true },
             ]}
           />
           <SignalEvidenceCard
             signalName="agency_hhi"
-            description="Agency concentration risk. HHI of the company's agency spend distribution. A score near 1.0 means nearly all contracts come from a single agency. This signal predicts underperformance — concentrated contractors consistently lag diversified ones. Use for the short book."
+            description="Agency concentration risk. Herfindahl-Hirschman Index of the company's agency spend distribution. A score near 1.0 means nearly all contracts come from a single agency — concentrated contractors consistently underperform diversified ones. Negative IC by design: use as the short-book signal or as a composite input (1 − rank)."
             metrics={[
-              { label: 'Mean IC', value: '−3.20%', negative: true },
-              { label: 't-stat', value: '−5.41', negative: true },
-              { label: 'Hit rate', value: '27.6%', negative: true },
+              { label: 'Mean IC', value: '−2.18%', negative: true },
+              { label: 't-stat', value: '−3.16', negative: true },
+              { label: 'Hit rate', value: '34.7%', negative: true },
             ]}
           />
         </div>
@@ -122,14 +132,14 @@ export default function GovSpendingPage() {
         </h2>
         <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
           <p>
-            Federal procurement data posts within days of contract execution — well ahead of quarterly earnings. For companies where government awards represent a significant share of revenue, this dataset provides a direct, observable leading indicator of the upcoming earnings print. The chart below illustrates the <code style={{ fontSize: '12px', color: 'var(--gold)' }}>obligation_mcap_ratio</code> signal (gold) alongside subsequent quarter returns (navy dashed).
+            Federal procurement data posts within days of contract execution — well ahead of quarterly earnings. For companies where government awards represent a significant share of revenue, this dataset provides a direct, observable leading indicator of the upcoming earnings print. The chart below illustrates the <code style={{ fontSize: '12px', color: 'var(--gold)' }}>composite_signal</code> rank (gold) alongside subsequent quarter returns (navy dashed).
           </p>
         </div>
         <SignalLeadChart
           data={govSpendingSignalVsReturn}
-          signalLabel="Obligation/MCap rank"
+          signalLabel="composite_signal rank"
           priceLabel="Next-quarter return"
-          caption="obligation_mcap_ratio percentile rank vs. subsequent quarter total return. Illustrative sample."
+          caption="composite_signal percentile rank vs. subsequent quarter total return. Illustrative sample (LMT, 2020–2024)."
         />
       </section>
 
@@ -159,11 +169,13 @@ export default function GovSpendingPage() {
             </thead>
             <tbody>
               {[
-                { signal: 'obligation_mcap_ratio', ic: '+1.49%', t: '2.72', ir: '0.31', hit: '62.7%', pos: true },
-                { signal: 'ugr_surprise_pct_12q', ic: '+1.17%', t: '2.59', ir: '0.30', hit: '62.7%', pos: true },
-                { signal: 'obligation_qoq', ic: '+1.47%', t: '2.50', ir: '0.29', hit: '61.8%', pos: true },
-                { signal: 'ugr_surprise_pct_8q', ic: '+1.07%', t: '2.30', ir: '0.27', hit: '57.3%', pos: true },
-                { signal: 'agency_hhi', ic: '−3.20%', t: '−5.41', ir: '−0.62', hit: '27.6%', pos: false },
+                { signal: 'composite_signal', ic: '+2.08%', t: '3.39', ir: '0.39', hit: '65.3%', pos: true },
+                { signal: 'mod_count', ic: '+2.62%', t: '2.67', ir: '—', hit: '—', pos: true },
+                { signal: 'mod_net_value', ic: '+1.99%', t: '2.52', ir: '—', hit: '—', pos: true },
+                { signal: 'ugr_surprise_pct_12q', ic: '+1.32%', t: '2.29', ir: '0.27', hit: '61.6%', pos: true },
+                { signal: 'obligation_yoy', ic: '+1.24%', t: '2.18', ir: '0.26', hit: '56.3%', pos: true },
+                { signal: 'ugr_surprise_pct_8q', ic: '+1.21%', t: '2.03', ir: '0.24', hit: '54.8%', pos: true },
+                { signal: 'agency_hhi', ic: '−2.18%', t: '−3.16', ir: '−0.36', hit: '34.7%', pos: false },
               ].map((row, i) => (
                 <tr key={row.signal} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
                   <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--gold)' }}>{row.signal}</td>
@@ -180,14 +192,14 @@ export default function GovSpendingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '32px' }}>
           <QuintileBarChart
             data={govSpendingQuintileReturns}
-            title="Annualized return by obligation_mcap_ratio quintile"
+            title="Annualized return by composite_signal quintile"
             yAxisLabel="Annualized return (%)"
           />
           <ICTimeSeriesChart
             data={govSpendingICSeries}
-            title="IC time series — obligation_mcap_ratio"
-            meanIC={0.0149}
-            tStat={2.72}
+            title="IC time series — composite_signal"
+            meanIC={0.0208}
+            tStat={3.39}
           />
         </div>
       </section>
@@ -201,7 +213,7 @@ export default function GovSpendingPage() {
         </h2>
         <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', padding: '16px 20px', border: '1px solid var(--border)', background: 'var(--surface)' }}>
           <p style={{ marginBottom: '8px' }}>
-            A naïve quintile sort on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>obligation_mcap_ratio</code> (Q5 long / Q1 short, quarterly rebalance) produces <strong style={{ color: 'var(--navy)' }}>+7.9% annualized L/S spread with Sharpe 0.92</strong> over the 75-quarter validation window. The monotonic quintile spread confirms the signal has predictive content.
+            A naïve quintile sort on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>composite_signal</code> (Q5 long / Q1 short, quarterly rebalance) produces a <strong style={{ color: 'var(--navy)' }}>+12.1% annualized L/S spread</strong> over the 75-quarter validation window. The monotonic quintile spread confirms the signal has predictive content. Defense/Aerospace is the strongest sector (IC +2.50%, t=3.68, 515 tickers); the composite is most credible as a sector-aware earnings preview input.
           </p>
           <p style={{ fontSize: '11px', color: 'var(--border)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
             Ribeon provides data, not financial advice. Strategy construction, position sizing, and risk management are the buyer&apos;s domain.
