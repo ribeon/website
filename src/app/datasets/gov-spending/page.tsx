@@ -1,225 +1,270 @@
 import Link from 'next/link'
 import { QuintileBarChart } from '@/components/charts/QuintileBarChart'
 import { ICTimeSeriesChart } from '@/components/charts/ICTimeSeriesChart'
-import { SignalLeadChart } from '@/components/charts/SignalLeadChart'
 import { StatBar } from '@/components/StatBar'
 import { SignalEvidenceCard } from '@/components/SignalEvidenceCard'
+import { AtAGlance } from '@/components/AtAGlance'
+import { UseCases } from '@/components/UseCases'
+import { DetailsAccordion } from '@/components/DetailsAccordion'
+import { FlagshipSignalCard } from '@/components/FlagshipSignalCard'
+import { DatasetCTA } from '@/components/DatasetCTA'
+import { GOV_SPENDING_META } from '@/lib/data/dataset-meta'
 import {
   govSpendingICSeries,
   govSpendingQuintileReturns,
-  govSpendingSignalVsReturn,
 } from '@/lib/data/gov-spending-evidence'
 
 const Divider = () => (
-  <div style={{ borderTop: '1px solid var(--border)', margin: '36px 0' }} />
+  <div style={{ borderTop: '1px solid var(--border)', margin: '56px 0' }} />
 )
 
 export default function GovSpendingPage() {
   return (
     <div className="dataset-detail" style={{ padding: '112px clamp(24px, 5vw, 80px) 80px', maxWidth: '1200px' }}>
 
-      <Link href="/research" className="btn-outline" style={{ marginBottom: '40px', fontSize: '12px', padding: '10px 20px' }}>
+      <Link href="/research" className="btn-outline" style={{ marginBottom: '48px', fontSize: '12px', padding: '10px 20px' }}>
         ← Back to Research
       </Link>
 
-      {/* Title block */}
-      <div style={{ marginBottom: '24px' }}>
-        <p style={{ fontSize: '10px', color: 'var(--muted)', letterSpacing: '3px', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', marginBottom: '8px' }}>
+      {/* Hero */}
+      <div style={{ marginBottom: '10px' }}>
+        <p style={{ fontSize: '10px', color: 'var(--muted)', letterSpacing: '3px', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', marginBottom: '10px' }}>
           Alternative Data
         </p>
         <h1 style={{ fontSize: '38px', fontWeight: 700, color: 'var(--navy)', marginBottom: '10px', fontFamily: 'var(--font-serif)', lineHeight: 1.1 }}>
-          Federal Contract Spending
+          {GOV_SPENDING_META.name}
         </h1>
-        <p style={{ fontSize: '12px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px' }}>
-          2026 &nbsp;·&nbsp; 1,270 tickers &nbsp;·&nbsp; 76 quarters &nbsp;·&nbsp; FY2007–2025
+        <p style={{ fontSize: '12px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px', marginBottom: '28px' }}>
+          {GOV_SPENDING_META.tickers} tickers &nbsp;·&nbsp; {GOV_SPENDING_META.quarters} quarters &nbsp;·&nbsp; {GOV_SPENDING_META.history}
         </p>
-      </div>
-
-      {/* Hero */}
-      <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '28px' }}>
-        <p>
-          Federal procurement data publishes within <strong style={{ color: 'var(--navy)' }}>3 business days</strong> of contract execution — 30–60 days before quarterly earnings. For defense, IT services, and aerospace companies where government revenue is the dominant driver, this dataset provides a direct leading indicator of the upcoming earnings print.
+        <p style={{ fontSize: '15px', lineHeight: 1.8, color: 'var(--muted)', maxWidth: '660px', marginBottom: '32px' }}>
+          Federal procurement data publishes within <strong style={{ color: 'var(--navy)' }}>3 business days</strong> of contract
+          execution — 30 to 60 days before quarterly earnings. For defense, IT, and aerospace companies
+          where government revenue is the primary driver, this dataset provides a direct,
+          observable leading indicator of the upcoming earnings print.
         </p>
       </div>
 
       <StatBar stats={[
-        { label: 'Tickers covered', value: '1,270', subtitle: 'merged signal universe' },
-        { label: 'History', value: '76 quarters', subtitle: 'FY2007–2025' },
-        { label: 'Obligations mapped', value: '$6.58T', subtitle: 'prime + subawards' },
-        { label: 'Delivery lag', value: '~3 BD', subtitle: 'vs 30–60d earnings' },
-        { label: 'Signals |t| ≥ 2', value: '7', highlight: true },
+        { label: 'Tickers covered', value: GOV_SPENDING_META.tickers },
+        { label: 'History', value: GOV_SPENDING_META.quarters + ' quarters' },
+        { label: 'Obligations mapped', value: GOV_SPENDING_META.obligations },
+        { label: 'Composite hit rate', value: GOV_SPENDING_META.compositeHitRate, highlight: true },
       ]} />
 
-      {/* The Data */}
-      <section style={{ marginBottom: '0' }}>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '14px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          The Data
-        </h2>
-        <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px' }}>
-          <p style={{ marginBottom: '12px' }}>
-            Every prime federal contract obligation from FY2007 through FY2025, resolved to its publicly traded counterpart. Our entity resolution pipeline maps 1,325 tickers (1,270 in the merged quarterly signals panel) across the full historical record, accounting for corporate actions, mergers, and ticker changes with point-in-time effective date ranges.
-          </p>
-          <p>
-            Subaward data adds significant downstream exposure coverage. Every observation is point-in-time compliant — no look-ahead, no survivorship bias — making the dataset suitable for rigorous quantitative research and backtesting.
-          </p>
-        </div>
-      </section>
+      <AtAGlance items={[
+        { label: 'Tracks', value: 'Federal prime contracts & subawards' },
+        { label: 'Who uses it', value: 'Defense & aerospace quant funds, earnings analysts' },
+        { label: 'Update cadence', value: 'Within ~3 business days of execution' },
+        { label: 'History', value: GOV_SPENDING_META.history },
+        { label: 'Ticker mapping', value: 'Point-in-time, accounts for M&A and ticker changes' },
+        { label: 'Output', value: 'Quarterly cross-sectional signal ranks per ticker' },
+      ]} />
 
       <Divider />
 
       {/* Signals */}
-      <section>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '22px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
+      <section style={{ marginBottom: '0' }}>
+        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '8px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
           Signals
         </h2>
+        <p style={{ fontSize: '13px', color: 'var(--muted)', marginBottom: '24px', lineHeight: 1.6, maxWidth: '600px' }}>
+          Seven signals with |t| ≥ 2 across the full validation window. The pre-built composite is the recommended starting point — it blends the three strongest independent predictors into a single, ready-to-use rank.
+        </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px' }}>
-          <SignalEvidenceCard
-            signalName="composite_signal"
-            description="Pre-built ex-ante composite: equal-weighted average of ugr_surprise_pct_12q_rank, obligation_qoq_rank, and (1 − agency_hhi_rank). The primary headline predictor. Delivered as a ready-to-use cross-sectional rank — no buyer-side construction required."
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '840px', marginBottom: '16px' }}>
+          <FlagshipSignalCard
+            badge="Flagship"
+            name="composite_signal"
+            description="Pre-built composite: equal-weighted blend of UGR surprise (12Q), obligation quarter-over-quarter momentum, and inverse agency concentration (1 − HHI rank). Delivered as a cross-sectional rank across the full universe — ready to use without buyer-side construction."
             metrics={[
-              { label: 'Mean IC', value: '+2.08%', positive: true },
-              { label: 't-stat', value: '3.39', positive: true },
+              { label: 'Mean IC', value: GOV_SPENDING_META.compositeIC, positive: true },
+              { label: 't-stat', value: GOV_SPENDING_META.compositeTStat, positive: true },
               { label: 'IC IR', value: '0.39', positive: true },
-              { label: 'Hit rate', value: '65.3%', positive: true },
+              { label: 'Hit rate', value: GOV_SPENDING_META.compositeHitRate, positive: true },
             ]}
           />
+
           <SignalEvidenceCard
             signalName="ugr_surprise_pct_12q"
-            description="Unexpected Government Receivables. Current-quarter obligations vs. the trailing 12-quarter average. A positive value means the company is winning materially more than its long-run rate — a direct observable for the upcoming earnings beat."
+            description="Unexpected Government Receivables — current-quarter obligations vs. the trailing 12-quarter average. A positive reading means the company is winning materially more than its long-run rate: a direct observable for an upcoming earnings beat."
             metrics={[
               { label: 'Mean IC', value: '+1.32%', positive: true },
               { label: 't-stat', value: '2.29', positive: true },
               { label: 'Hit rate', value: '61.6%', positive: true },
             ]}
           />
-          <SignalEvidenceCard
-            signalName="obligation_yoy"
-            description="Year-over-year obligation growth. Captures the annual momentum trend in contract awards — did the company win more in the past four quarters vs. the prior four? Complementary to UGR in the composite."
-            metrics={[
-              { label: 'Mean IC', value: '+1.24%', positive: true },
-              { label: 't-stat', value: '2.18', positive: true },
-              { label: 'Hit rate', value: '56.3%', positive: true },
-            ]}
-          />
-          <SignalEvidenceCard
-            signalName="ugr_surprise_pct_8q"
-            description="Unexpected Government Receivables on an 8-quarter trailing baseline. Shorter memory than the 12-quarter variant — more responsive to recent regime shifts, slightly noisier. Component of the composite."
-            metrics={[
-              { label: 'Mean IC', value: '+1.21%', positive: true },
-              { label: 't-stat', value: '2.03', positive: true },
-              { label: 'Hit rate', value: '54.8%', positive: true },
-            ]}
-          />
+
           <SignalEvidenceCard
             signalName="agency_hhi"
-            description="Agency concentration risk. Herfindahl-Hirschman Index of the company's agency spend distribution. A score near 1.0 means nearly all contracts come from a single agency — concentrated contractors consistently underperform diversified ones. Negative IC by design: use as the short-book signal or as a composite input (1 − rank)."
+            description="Agency concentration risk (Herfindahl index). A score near 1.0 means nearly all contracts come from a single agency — concentrated contractors consistently underperform diversified ones. Use as the short-book signal or as a composite input (1 − rank). Negative IC by design."
             metrics={[
               { label: 'Mean IC', value: '−2.18%', negative: true },
               { label: 't-stat', value: '−3.16', negative: true },
-              { label: 'Hit rate', value: '34.7%', negative: true },
+              { label: 'Directional', value: 'Short signal', negative: true },
             ]}
           />
         </div>
+
+        <DetailsAccordion title="Additional signals — obligation_yoy, ugr_8q, mod_count, mod_net_value">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <SignalEvidenceCard
+              signalName="obligation_yoy"
+              description="Year-over-year obligation growth. Captures annual momentum in contract awards — did this company win more in the past four quarters than the prior four? Complements the UGR signal in the composite."
+              metrics={[
+                { label: 'Mean IC', value: '+1.24%', positive: true },
+                { label: 't-stat', value: '2.18', positive: true },
+                { label: 'Hit rate', value: '56.3%', positive: true },
+              ]}
+            />
+            <SignalEvidenceCard
+              signalName="ugr_surprise_pct_8q"
+              description="UGR on an 8-quarter trailing baseline. Shorter memory than the 12Q variant — more responsive to recent regime shifts, slightly noisier. Component of the composite."
+              metrics={[
+                { label: 'Mean IC', value: '+1.21%', positive: true },
+                { label: 't-stat', value: '2.03', positive: true },
+                { label: 'Hit rate', value: '54.8%', positive: true },
+              ]}
+            />
+            <SignalEvidenceCard
+              signalName="mod_count"
+              description="Number of contract modifications in the quarter. High modification activity is associated with scope increases and budget supplementals — a leading indicator of upward revenue revisions."
+              metrics={[
+                { label: 'Mean IC', value: '+2.62%', positive: true },
+                { label: 't-stat', value: '2.67', positive: true },
+              ]}
+            />
+            <SignalEvidenceCard
+              signalName="mod_net_value"
+              description="Net dollar value of contract modifications. Captures magnitude alongside count — large positive modifications signal material revenue acceleration."
+              metrics={[
+                { label: 'Mean IC', value: '+1.99%', positive: true },
+                { label: 't-stat', value: '2.52', positive: true },
+              ]}
+            />
+          </div>
+        </DetailsAccordion>
       </section>
 
       <Divider />
 
-      {/* How It Works */}
-      <section>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '16px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          How It Works
-        </h2>
-        <div style={{ fontSize: '14px', lineHeight: 1.85, color: 'var(--muted)', maxWidth: '680px', marginBottom: '24px' }}>
-          <p>
-            Federal procurement data posts within days of contract execution — well ahead of quarterly earnings. For companies where government awards represent a significant share of revenue, this dataset provides a direct, observable leading indicator of the upcoming earnings print. The chart below illustrates the <code style={{ fontSize: '12px', color: 'var(--gold)' }}>composite_signal</code> rank (gold) alongside subsequent quarter returns (navy dashed).
-          </p>
-        </div>
-        <SignalLeadChart
-          data={govSpendingSignalVsReturn}
-          signalLabel="composite_signal rank"
-          priceLabel="Next-quarter return"
-          caption="composite_signal percentile rank vs. subsequent quarter total return. Illustrative sample (LMT, 2020–2024)."
-        />
-      </section>
+      <UseCases cases={[
+        {
+          title: 'Earnings preview',
+          description: 'Rank government-exposed names by composite_signal heading into earnings to identify potential beats before the print.',
+        },
+        {
+          title: 'Cross-sectional L/S',
+          description: 'Sort the full 1,270-ticker universe by signal for a Q5 long / Q1 short quarterly-rebalanced book. Historically +12.1% annualized spread.',
+        },
+        {
+          title: 'Sector screening',
+          description: 'Defense and aerospace shows the strongest sub-sector IC (+2.50%, t=3.68 across 515 tickers) — use as a sector-aware earnings preview filter.',
+        },
+      ]} />
 
       <Divider />
 
-      {/* Statistical Evidence */}
+      {/* Evidence */}
       <section>
         <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '22px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
           Statistical Evidence
         </h2>
 
-        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.7, maxWidth: '680px', marginBottom: '28px' }}>
-          Spearman rank IC vs. one-quarter-forward total return, cross-sectionally across the covered universe over the full historical period. Point-in-time construction — no look-ahead bias.
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '32px', marginBottom: '32px' }}>
+          <div>
+            <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
+              IC over time — composite_signal
+            </p>
+            <ICTimeSeriesChart
+              data={govSpendingICSeries}
+              meanIC={0.0208}
+              tStat={3.39}
+            />
+          </div>
+          <div>
+            <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
+              Annualized return by composite_signal quintile
+            </p>
+            <QuintileBarChart
+              data={govSpendingQuintileReturns}
+              yAxisLabel="Annualized return (%)"
+            />
+          </div>
         </div>
 
-        {/* IC Summary table */}
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border)', marginBottom: '32px' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                {['Signal', 'Mean IC', 't-stat', 'IC IR', 'Hit Rate'].map((h) => (
-                  <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { signal: 'composite_signal', ic: '+2.08%', t: '3.39', ir: '0.39', hit: '65.3%', pos: true },
-                { signal: 'mod_count', ic: '+2.62%', t: '2.67', ir: '—', hit: '—', pos: true },
-                { signal: 'mod_net_value', ic: '+1.99%', t: '2.52', ir: '—', hit: '—', pos: true },
-                { signal: 'ugr_surprise_pct_12q', ic: '+1.32%', t: '2.29', ir: '0.27', hit: '61.6%', pos: true },
-                { signal: 'obligation_yoy', ic: '+1.24%', t: '2.18', ir: '0.26', hit: '56.3%', pos: true },
-                { signal: 'ugr_surprise_pct_8q', ic: '+1.21%', t: '2.03', ir: '0.24', hit: '54.8%', pos: true },
-                { signal: 'agency_hhi', ic: '−2.18%', t: '−3.16', ir: '−0.36', hit: '34.7%', pos: false },
-              ].map((row, i) => (
-                <tr key={row.signal} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
-                  <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--gold)' }}>{row.signal}</td>
-                  <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.pos ? 'var(--positive)' : 'var(--negative)', fontWeight: 600 }}>{row.ic}</td>
-                  <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.pos ? 'var(--positive)' : 'var(--negative)', fontWeight: 600 }}>{row.t}</td>
-                  <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.ir}</td>
-                  <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hit}</td>
+        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', padding: '20px 24px', border: '1px solid var(--border)', background: 'var(--surface)', marginBottom: '16px' }}>
+          <p>
+            A naïve quintile sort on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>composite_signal</code> (Q5 long / Q1 short, quarterly rebalance) produces a{' '}
+            <strong style={{ color: 'var(--navy)' }}>{GOV_SPENDING_META.lsSpread} annualized L/S spread</strong> over the {GOV_SPENDING_META.quarters}-quarter validation window.
+            The monotonic quintile structure — each quintile strictly higher than the last — confirms genuine predictive content.
+            Defense/Aerospace is the strongest sub-sector: IC +2.50%, t=3.68 across 515 tickers.
+          </p>
+        </div>
+
+        <DetailsAccordion title="Full signal validation table">
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  {['Signal', 'Mean IC', 't-stat', 'IC IR', 'Hit Rate'].map((h) => (
+                    <th key={h} style={{ padding: '9px 14px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
+                      {h}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '32px' }}>
-          <QuintileBarChart
-            data={govSpendingQuintileReturns}
-            title="Annualized return by composite_signal quintile"
-            yAxisLabel="Annualized return (%)"
-          />
-          <ICTimeSeriesChart
-            data={govSpendingICSeries}
-            title="IC time series — composite_signal"
-            meanIC={0.0208}
-            tStat={3.39}
-          />
-        </div>
+              </thead>
+              <tbody>
+                {[
+                  { signal: 'composite_signal',     ic: '+2.08%', t: '3.39',  ir: '0.39',  hit: '65.3%', pos: true },
+                  { signal: 'mod_count',             ic: '+2.62%', t: '2.67',  ir: '—',     hit: '—',     pos: true },
+                  { signal: 'mod_net_value',         ic: '+1.99%', t: '2.52',  ir: '—',     hit: '—',     pos: true },
+                  { signal: 'ugr_surprise_pct_12q',  ic: '+1.32%', t: '2.29',  ir: '0.27',  hit: '61.6%', pos: true },
+                  { signal: 'obligation_yoy',        ic: '+1.24%', t: '2.18',  ir: '0.26',  hit: '56.3%', pos: true },
+                  { signal: 'ugr_surprise_pct_8q',   ic: '+1.21%', t: '2.03',  ir: '0.24',  hit: '54.8%', pos: true },
+                  { signal: 'agency_hhi',            ic: '−2.18%', t: '−3.16', ir: '−0.36', hit: '34.7%', pos: false },
+                ].map((row, i) => (
+                  <tr key={row.signal} style={{ borderBottom: '1px solid var(--surface)', background: i % 2 === 1 ? 'var(--bg)' : 'var(--white)' }}>
+                    <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--gold)' }}>{row.signal}</td>
+                    <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.pos ? 'var(--positive)' : 'var(--negative)', fontWeight: 600 }}>{row.ic}</td>
+                    <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: row.pos ? 'var(--positive)' : 'var(--negative)', fontWeight: 600 }}>{row.t}</td>
+                    <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.ir}</td>
+                    <td style={{ padding: '8px 14px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--navy)' }}>{row.hit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginTop: '12px' }}>
+            Spearman rank IC vs. 1Q-forward total return, cross-sectionally across the covered universe. {GOV_SPENDING_META.quarters} quarters, {GOV_SPENDING_META.history}. Point-in-time — no look-ahead bias.
+          </p>
+        </DetailsAccordion>
       </section>
 
       <Divider />
 
-      {/* Backtest Validation */}
-      <section>
-        <h2 style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '14px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Backtest Validation
-        </h2>
-        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '680px', padding: '16px 20px', border: '1px solid var(--border)', background: 'var(--surface)' }}>
-          <p style={{ marginBottom: '8px' }}>
-            A naïve quintile sort on <code style={{ fontSize: '11px', color: 'var(--gold)' }}>composite_signal</code> (Q5 long / Q1 short, quarterly rebalance) produces a <strong style={{ color: 'var(--navy)' }}>+12.1% annualized L/S spread</strong> over the 75-quarter validation window. The monotonic quintile spread confirms the signal has predictive content. Defense/Aerospace is the strongest sector (IC +2.50%, t=3.68, 515 tickers); the composite is most credible as a sector-aware earnings preview input.
+      <DetailsAccordion title="Methodology & data construction">
+        <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.8, maxWidth: '640px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <p>
+            Every prime federal contract obligation from {GOV_SPENDING_META.history} is resolved to its publicly traded counterpart through a proprietary entity resolution pipeline.
+            The pipeline maps 1,325 tickers (1,270 in the merged quarterly signals panel) with point-in-time effective date ranges,
+            accounting for corporate actions, mergers, and ticker changes across the full historical record.
           </p>
-          <p style={{ fontSize: '11px', color: 'var(--border)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
-            Ribeon provides data, not financial advice. Strategy construction, position sizing, and risk management are the buyer&apos;s domain.
+          <p>
+            Subaward data adds significant downstream exposure coverage — capturing revenue exposure for companies that primarily receive work through primes.
+            Every observation is point-in-time compliant: no look-ahead, no survivorship bias.
+          </p>
+          <p>
+            The composite signal is constructed ex-ante using equal-weighted combination of three independently significant signals.
+            All signal ranks are computed cross-sectionally within each quarter so the output is immediately usable in factor models and portfolio construction.
           </p>
         </div>
-      </section>
+      </DetailsAccordion>
+
+      <DatasetCTA
+        heading="Ready to integrate Federal Contract Spending?"
+        subtext="Request a sample file, discuss sector-specific coverage, or talk through how the composite signal fits into your earnings workflow."
+      />
 
     </div>
   )
