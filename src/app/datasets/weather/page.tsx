@@ -41,16 +41,16 @@ export default function WeatherPage() {
       </p>
 
       <StatBar stats={[
-        { label: 'CORN Sharpe (OOS)', value: '4.66', highlight: true },
-        { label: 'NE HDD → HO (3yr OOS)', value: '+0.444' },
+        { label: 'CORN Sharpe Ratio (Out-of-Sample)', value: '4.66', highlight: true },
+        { label: 'Northeast Heating Degree Days → Heating Oil (3-Year Out-of-Sample)', value: '+0.444' },
         { label: 'Cadence', value: 'Weekly' },
       ]} />
 
       <AtAGlance items={[
-        { label: 'Signal', value: '7-day NE HDD forecast anomaly, z-scored' },
-        { label: 'Validated commodities', value: 'HO, RB, CL, CORN (winter, Nov–Mar)' },
+        { label: 'Signal', value: '7-day Northeast Heating Degree Day forecast anomaly, standardized' },
+        { label: 'Validated commodities', value: 'Heating Oil (HO), RBOB Gasoline (RB), Crude Oil (CL), Corn (CORN) — winter months only (Nov–Mar)' },
         { label: 'Regions covered', value: '7 commodity-producing regions' },
-        { label: 'OOS period tested', value: '2021–2024 (154 weeks)' },
+        { label: 'Out-of-Sample period tested', value: '2021–2024 (154 weeks)' },
       ]} />
 
       <D />
@@ -62,24 +62,24 @@ export default function WeatherPage() {
 
       <FlagshipSignalCard
         badge="Flagship"
-        name="NE HDD anomaly → Corn"
+        name="Northeast Heating Degree Day anomaly → Corn"
         description="When the AI model forecasts a colder-than-normal week in the US Northeast, Corn futures tend to rise. Cold winters elevate energy costs, which transmit into agricultural production — connecting a Monday weather forecast to a grain price signal before the market opens."
         metrics={[
-          { label: 'Sharpe (score=3, OOS)', value: '4.66', positive: true },
+          { label: 'Sharpe Ratio (score=3, out-of-sample)', value: '4.66', positive: true },
           { label: 'Directional accuracy', value: '79%', positive: true },
-          { label: 'Trades (OOS 154wk)', value: '19' },
+          { label: 'Trades (out-of-sample, 154 weeks)', value: '19' },
         ]}
       />
 
       <div style={{ maxWidth: '560px', marginTop: '32px' }}>
         <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-          NE HDD anomaly vs Heating Oil weekly return — OOS winter weeks
+          Northeast Heating Degree Day anomaly vs Heating Oil weekly return — out-of-sample winter weeks
         </p>
         <SignalLeadChart
           data={atlasHddVsHoReturn}
           signalLabel="NE HDD z-score"
           priceLabel="HO return (%)"
-          caption="AI model 7-day NE HDD anomaly (gold) vs Heating Oil Mon→Mon return (navy). 2021–2022 OOS winter weeks. Signal available before market open — no look-ahead."
+          caption="AI model 7-day Northeast Heating Degree Day anomaly (gold) vs Heating Oil Monday-to-Monday return (navy). 2021–2022 out-of-sample winter weeks. Signal available before market open — no look-ahead."
         />
       </div>
 
@@ -106,13 +106,13 @@ export default function WeatherPage() {
           {/* Three-link proof */}
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              Three-link causal proof — OOS 2021–2023, n=48 winter weeks
+              Three-link causal proof — out-of-sample 2021–2023, n=48 winter weeks
             </p>
             <div style={{ overflowX: 'auto', border: '1px solid var(--border)' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    {['Commodity', 'ERA5→Price (r)', 'Model→ERA5 (r)', 'Model→Price (r)', 'Perm p'].map((h) => (
+                    {['Commodity', 'ERA5→Price (r)', 'Model→ERA5 (r)', 'Model→Price (r)', 'Permutation p-value'].map((h) => (
                       <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                         {h}
                       </th>
@@ -140,13 +140,13 @@ export default function WeatherPage() {
           {/* Score=3 backtest */}
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              Activation-gated backtest — score=3 (all gates active), OOS 2021-01-04 → 2024-02-02, 154 weeks
+              Activation-gated backtest — score=3 (all gates active), out-of-sample 2021-01-04 → 2024-02-02, 154 weeks
             </p>
             <div style={{ overflowX: 'auto', border: '1px solid var(--border)' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    {['Signal', 'Sharpe', 'Hit Rate', 'Trades'].map((h) => (
+                    {['Signal', 'Sharpe Ratio', 'Hit Rate', 'Trades'].map((h) => (
                       <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                         {h}
                       </th>
@@ -166,20 +166,20 @@ export default function WeatherPage() {
               </table>
             </div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
-              Bootstrap 5th percentile: CORN 2.33 (lower bound comfortably above 2.0) · RB 0.76 (positive)
+              Bootstrap 5th percentile: Corn (CORN) 2.33 (lower bound comfortably above 2.0) · RBOB Gasoline (RB) 0.76 (positive)
             </p>
           </div>
 
           {/* Score threshold comparison */}
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              Score threshold comparison — HO and CL recommended at score≥2
+              Score threshold comparison — Heating Oil (HO) and Crude Oil (CL) recommended at score≥2
             </p>
             <div style={{ overflowX: 'auto', border: '1px solid var(--border)' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    {['Signal', 'Sharpe (score=3)', 'Sharpe (score≥2)', 'Note'].map((h) => (
+                    {['Signal', 'Sharpe Ratio (score=3)', 'Sharpe Ratio (score≥2)', 'Note'].map((h) => (
                       <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                         {h}
                       </th>
@@ -203,13 +203,13 @@ export default function WeatherPage() {
           {/* 2022 reference */}
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              2022 strict OOS reference — no activation filter, lag-0
+              2022 strict out-of-sample reference — no activation filter, lag-0
             </p>
             <div style={{ overflowX: 'auto', border: '1px solid var(--border)' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    {['Signal', 'Sharpe', 'Hit Rate', 'Trades'].map((h) => (
+                    {['Signal', 'Sharpe Ratio', 'Hit Rate', 'Trades'].map((h) => (
                       <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                         {h}
                       </th>
@@ -237,7 +237,7 @@ export default function WeatherPage() {
           <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.8, maxWidth: '600px' }}>
             <p style={{ fontWeight: 600, color: 'var(--navy)', marginBottom: '10px', fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px' }}>Important caveats</p>
             <ul style={{ paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong style={{ color: 'var(--navy)' }}>Regime-dependent.</strong> 2023 standalone energy correlation was weak (HO r=+0.016). 3-year significance is driven substantially by the 2021–2022 energy-crisis period. Evaluate regime suitability before deployment.</li>
+              <li><strong style={{ color: 'var(--navy)' }}>Regime-dependent.</strong> 2023 standalone energy correlation was weak (Heating Oil r=+0.016). 3-year significance is driven substantially by the 2021–2022 energy-crisis period. Evaluate regime suitability before deployment.</li>
               <li><strong style={{ color: 'var(--navy)' }}>Winter-only.</strong> Active weeks limited to Nov–Mar. Score=3 concentrates on the highest-confidence weeks — which reduces trade count per season.</li>
               <li><strong style={{ color: 'var(--navy)' }}>Calibration required.</strong> Signals are z-scored to the model&apos;s forecast distribution. Ribeon delivers pre-calibrated values — no buyer-side normalization needed.</li>
             </ul>

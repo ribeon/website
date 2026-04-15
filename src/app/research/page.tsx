@@ -59,7 +59,7 @@ export default function Research() {
               <div className="dataset-stats" style={{ marginTop: '24px' }}>
                 <div className="stat-item">
                   <div className="stat-value">4.66</div>
-                  <div className="stat-label">CORN Sharpe (OOS)</div>
+                  <div className="stat-label">CORN Sharpe Ratio (Out-of-Sample)</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">4</div>
@@ -89,7 +89,7 @@ export default function Research() {
               <div className="dataset-stats" style={{ marginTop: '24px' }}>
                 <div className="stat-item">
                   <div className="stat-value">+0.099</div>
-                  <div className="stat-label">Permit IC (1Q)</div>
+                  <div className="stat-label">Permit Information Coefficient (1-Quarter)</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">65%</div>

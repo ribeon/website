@@ -39,13 +39,13 @@ export default function GovSpendingPage() {
       </p>
 
       <StatBar stats={[
-        { label: 'Obligations mapped', value: '$6.58T' },
+        { label: 'Obligations mapped', value: '$6.58 trillion' },
         { label: 'Composite hit rate', value: '65.3%', highlight: true },
         { label: 'Validation window', value: '76 quarters' },
       ]} />
 
       <AtAGlance items={[
-        { label: 'Universe', value: '1,270 SEC-mapped tickers (FY2007–2025)' },
+        { label: 'Universe', value: '1,270 SEC-mapped tickers (Fiscal Years 2007–2025)' },
         { label: 'Delivery', value: 'Within ~3 business days of award' },
         { label: 'Best for', value: 'Defense, IT services, aerospace equities' },
         { label: 'Output', value: 'Quarterly cross-sectional signal ranks' },
@@ -63,9 +63,9 @@ export default function GovSpendingPage() {
         name="composite_signal"
         description="Ranks government-exposed companies by how much their recent contract activity deviates from their long-run baseline. Companies winning materially more than usual score high — a reliable, directly observable precursor to an earnings beat. Delivered as a ready-to-use quarterly cross-sectional rank."
         metrics={[
-          { label: 'Mean IC', value: '+2.08%', positive: true },
+          { label: 'Mean Information Coefficient', value: '+2.08%', positive: true },
           { label: 'Directional accuracy', value: '65.3%', positive: true },
-          { label: 'IC IR', value: '0.39', positive: true },
+          { label: 'Information Ratio', value: '0.39', positive: true },
         ]}
       />
 
@@ -111,8 +111,8 @@ export default function GovSpendingPage() {
               signalName="ugr_surprise_pct_12q"
               description="Current-quarter obligations vs. the trailing 12-quarter average. A positive reading means the company is winning materially more than its long-run rate — a direct observable for an upcoming earnings beat."
               metrics={[
-                { label: 'Mean IC', value: '+1.32%', positive: true },
-                { label: 't-stat', value: '2.29', positive: true },
+                { label: 'Mean Information Coefficient', value: '+1.32%', positive: true },
+                { label: 't-statistic', value: '2.29', positive: true },
                 { label: 'Hit rate', value: '61.6%', positive: true },
               ]}
             />
@@ -120,35 +120,35 @@ export default function GovSpendingPage() {
               signalName="agency_hhi"
               description="Agency concentration risk. Concentrated contractors (most revenue from one agency) consistently underperform diversified ones. Negative IC by design — use as the short-book signal or inverse composite input."
               metrics={[
-                { label: 'Mean IC', value: '−2.18%', negative: true },
-                { label: 't-stat', value: '−3.16', negative: true },
+                { label: 'Mean Information Coefficient', value: '−2.18%', negative: true },
+                { label: 't-statistic', value: '−3.16', negative: true },
               ]}
             />
             <SignalEvidenceCard
               signalName="obligation_yoy"
               description="Year-over-year obligation growth. Did the company win more over the past four quarters than the prior four? Complements UGR in the composite."
               metrics={[
-                { label: 'Mean IC', value: '+1.24%', positive: true },
-                { label: 't-stat', value: '2.18', positive: true },
+                { label: 'Mean Information Coefficient', value: '+1.24%', positive: true },
+                { label: 't-statistic', value: '2.18', positive: true },
               ]}
             />
           </div>
 
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              IC over time — composite_signal (76 quarters)
+              Information Coefficient over time — composite_signal (76 quarters)
             </p>
             <ICTimeSeriesChart data={govSpendingICSeries} meanIC={0.0208} tStat={3.39} />
           </div>
 
           <div style={{ overflowX: 'auto' }}>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              Full signal table (signals with |t| ≥ 2)
+              Full signal table (signals with |t-statistic| ≥ 2)
             </p>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  {['Signal', 'Mean IC', 't-stat', 'Hit Rate'].map((h) => (
+                  {['Signal', 'Mean Information Coefficient', 't-statistic', 'Hit Rate'].map((h) => (
                     <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--muted)', borderBottom: '1px solid var(--border)', background: 'var(--surface)', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
                       {h}
                     </th>
@@ -175,7 +175,7 @@ export default function GovSpendingPage() {
               </tbody>
             </table>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginTop: '10px' }}>
-              Spearman rank IC vs. 1Q-forward total return. FY2007–2025. Point-in-time — no look-ahead.
+              Spearman rank Information Coefficient vs. 1-quarter-forward total return. Fiscal Years 2007–2025. Point-in-time — no look-ahead.
             </p>
           </div>
 

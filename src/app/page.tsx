@@ -44,7 +44,7 @@ export default function Home() {
         <section className="stats-strip">
           <div className="stat">
             <div className="stat-number">$6.58T</div>
-            <div className="stat-text">In Obligations Tracked</div>
+            <div className="stat-text">In Federal Obligations Tracked</div>
           </div>
           <div className="stat">
             <div className="stat-number">1,270</div>
@@ -117,7 +117,7 @@ export default function Home() {
               <ul className="feature-list">
                 <li>Automated ingestion from public data sources</li>
                 <li>Rigorous quality assurance at every stage</li>
-                <li>Rapid delivery with guaranteed SLAs</li>
+                <li>Rapid delivery with guaranteed service-level agreements</li>
               </ul>
             </div>
           </div>

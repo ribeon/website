@@ -40,15 +40,15 @@ export default function GovHousingPage() {
 
       <StatBar stats={[
         { label: 'Counties covered', value: '3,135' },
-        { label: 'Permit IC (1Q)', value: '+0.099', subtitle: 't = 5.91', highlight: true },
-        { label: 'Homebuilder OOS hit', value: '65%' },
+        { label: 'Permit Information Coefficient (1-Quarter)', value: '+0.099', subtitle: 't = 5.91', highlight: true },
+        { label: 'Homebuilder Out-of-Sample Hit Rate', value: '65%' },
       ]} />
 
       <AtAGlance items={[
-        { label: 'Geographic panel', value: '3,135 counties, 911 MSAs (FY2010–2025)' },
-        { label: 'Data sources', value: '7 fused: Census, USAspending, LIHTC, SAM.gov, FEMA' },
+        { label: 'Geographic panel', value: '3,135 counties, 911 Metropolitan Statistical Areas (Fiscal Years 2010–2025)' },
+        { label: 'Data sources', value: '7 fused: Census, USAspending, Low-Income Housing Tax Credit (LIHTC), SAM.gov, FEMA' },
         { label: 'Equity coverage', value: '16 homebuilder and building materials names' },
-        { label: 'Validation', value: 'Geographic vs. Zillow ZHVI · Equity OOS 2020Q1–2025Q3' },
+        { label: 'Validation', value: 'Geographic vs. Zillow Home Value Index · Equity out-of-sample 2020Q1–2025Q3' },
       ]} />
 
       <D />
@@ -63,15 +63,15 @@ export default function GovHousingPage() {
         name="permit_sf_yoy"
         description="Year-over-year change in single-family building permits. Counties with rising permit counts reveal strengthening demand before it appears in home prices — typically one to four quarters ahead. The signal has been validated against Zillow ZHVI across all 3,135 US counties."
         metrics={[
-          { label: '1Q IC vs HPI', value: '+0.099', positive: true },
-          { label: '1Q t-stat', value: '5.91', positive: true },
-          { label: '4Q IC', value: '+0.129', positive: true },
+          { label: '1-Quarter Information Coefficient vs Home Price Index', value: '+0.099', positive: true },
+          { label: '1-Quarter t-statistic', value: '5.91', positive: true },
+          { label: '4-Quarter Information Coefficient', value: '+0.129', positive: true },
         ]}
       />
 
       <div style={{ maxWidth: '560px', marginTop: '32px' }}>
         <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
-          Quarterly HPI appreciation by permit_sf_yoy quintile
+          Quarterly Home Price Index appreciation by permit_sf_yoy quintile
         </p>
         <QuintileBarChart
           data={housingPermitQuintileReturns}
@@ -81,7 +81,7 @@ export default function GovHousingPage() {
         <p style={{ fontSize: '12px', color: 'var(--muted)', lineHeight: 1.7, marginTop: '16px' }}>
           Top quintile counties appreciate <strong style={{ color: 'var(--navy)' }}>~3.5% per quarter</strong> versus
           ~0.8% for the bottom quintile — a 2.7pp spread that persists across market regimes.
-          The 4-quarter IC of +0.129 is stronger than the 1-quarter IC, confirming the signal
+          The 4-quarter Information Coefficient of +0.129 is stronger than the 1-quarter Information Coefficient, confirming the signal
           strengthens as prices catch up to the permit supply.
         </p>
       </div>
@@ -118,9 +118,9 @@ export default function GovHousingPage() {
         </p>
         <div style={{ display: 'flex', gap: '28px', paddingTop: '14px', borderTop: '1px solid var(--border)', flexWrap: 'wrap' }}>
           {[
-            { v: '+0.204', l: 'OOS IC (16 names)' },
-            { v: '4.25',   l: 'OOS t-stat' },
-            { v: '65%',    l: 'Hit rate (23 OOS quarters)' },
+            { v: '+0.204', l: 'Out-of-Sample Information Coefficient (16 names)' },
+            { v: '4.25',   l: 'Out-of-Sample t-statistic' },
+            { v: '65%',    l: 'Hit rate (23 out-of-sample quarters)' },
           ].map((m, i) => (
             <div key={i}>
               <div style={{ fontSize: '16px', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--positive)', letterSpacing: '-0.3px' }}>{m.v}</div>
@@ -138,18 +138,18 @@ export default function GovHousingPage() {
 
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              permit_sf_yoy IC over time (vs. Zillow ZHVI)
+              permit_sf_yoy Information Coefficient over time (vs. Zillow Home Value Index)
             </p>
             <ICTimeSeriesChart data={housingPermitICSeries} meanIC={0.099} tStat={5.91} />
           </div>
 
           <div>
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-              hb_sector_adaptive_index IC — OOS begins 2020Q1
+              hb_sector_adaptive_index Information Coefficient — out-of-sample begins 2020Q1
             </p>
             <ICTimeSeriesChart data={homebuilderSectorAdaptiveICSeries} meanIC={0.204} tStat={4.25} />
             <p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', marginTop: '8px' }}>
-              IS period (pre-2020): lower IC, more volatile. OOS (2020Q1–2025Q3): IC +0.204, t=4.25 across 16 names.
+              In-sample period (pre-2020): lower Information Coefficient, more volatile. Out-of-sample (2020Q1–2025Q3): Information Coefficient +0.204, t=4.25 across 16 names.
             </p>
           </div>
 
@@ -159,18 +159,18 @@ export default function GovHousingPage() {
             </p>
             <SignalEvidenceCard
               signalName="construction_score"
-              description="Composite supply signal: permit momentum (25%), construction spending YoY (25%), LIHTC new units (20%), new construction intensity (15%), SAM.gov forward pipeline (15%)."
+              description="Composite supply signal: permit momentum (25%), construction spending year-over-year (25%), Low-Income Housing Tax Credit (LIHTC) new units (20%), new construction intensity (15%), SAM.gov forward pipeline (15%)."
               metrics={[
-                { label: '1Q IC', value: '+0.052', positive: true },
-                { label: '1Q t-stat', value: '6.53', positive: true },
-                { label: '4Q IC', value: '+0.067', positive: true },
+                { label: '1-Quarter Information Coefficient', value: '+0.052', positive: true },
+                { label: '1-Quarter t-statistic', value: '6.53', positive: true },
+                { label: '4-Quarter Information Coefficient', value: '+0.067', positive: true },
               ]}
             />
             <SignalEvidenceCard
               signalName="subsidy_flow_score"
-              description="Federal grant and loan intensity (HUD/USDA: Section 8, CDBG, HOME). Countercyclical — concentrates in distressed markets. Use as a market distress indicator, not a price predictor."
+              description="Federal grant and loan intensity (Housing and Urban Development / Department of Agriculture: Section 8, Community Development Block Grant, HOME Investment Partnerships Program). Countercyclical — concentrates in distressed markets. Use as a market distress indicator, not a price predictor."
               metrics={[
-                { label: '1Q IC vs HPI', value: '+0.006' },
+                { label: '1-Quarter Information Coefficient vs Home Price Index', value: '+0.006' },
                 { label: 'Interpretation', value: 'Distress proxy' },
               ]}
             />
@@ -180,14 +180,14 @@ export default function GovHousingPage() {
             <p style={{ fontWeight: 600, color: 'var(--navy)', marginBottom: '8px', fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '1px' }}>Methodology</p>
             <p>
               Seven data sources fused into a single quarterly panel: USAspending.gov, SAM.gov,
-              Census BPS permit data, LIHTC allocations, Census CBSA crosswalk, and FEMA
+              Census Building Permits Survey data, Low-Income Housing Tax Credit (LIHTC) allocations, Census Core-Based Statistical Area (CBSA) crosswalk, and FEMA
               disaster declarations. Disaster-related grants are identified and adjusted to
               prevent event-driven distortions from inflating housing metrics.
             </p>
             <p style={{ marginTop: '10px' }}>
               The homebuilder equity signal uses point-in-time 10-K disclosures to determine
               each company&apos;s state-level footprint — then applies sector-specific transmission
-              weights (homebuilders vs. building materials) to monthly BPS permit data.
+              weights (homebuilders vs. building materials) to monthly Building Permits Survey data.
               No look-ahead into future filings.
             </p>
           </div>

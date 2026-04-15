@@ -23,28 +23,28 @@ export const threeLinkProof = [
 // Full stats (trades, hit rate) are available for score=3 only.
 // HO and CL are repositioned to score≥2 as their recommended tier (see atlasScore2Sharpes).
 export const atlasBacktestResults = [
-  { signal: 'Heating Oil / NE HDD',   sharpe: 0.83, hitRate: 60, trades: 15, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 1.99 },
-  { signal: 'RBOB Gasoline / NE HDD', sharpe: 3.56, hitRate: 77, trades: 30, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 3.56 },
-  { signal: 'Crude Oil / NE HDD',     sharpe: 7.93, hitRate: 100, trades: 3,  ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 2.57 },
-  { signal: 'Corn / NE HDD',          sharpe: 4.66, hitRate: 79, trades: 19, ciLow: 2.33, ciHigh: 8.90, oracleSharpe: 4.66 },
+  { signal: 'Heating Oil / Northeast Heating Degree Days',   sharpe: 0.83, hitRate: 60, trades: 15, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 1.99 },
+  { signal: 'RBOB Gasoline / Northeast Heating Degree Days', sharpe: 3.56, hitRate: 77, trades: 30, ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 3.56 },
+  { signal: 'Crude Oil / Northeast Heating Degree Days',     sharpe: 7.93, hitRate: 100, trades: 3,  ciLow: 0.76, ciHigh: 8.26, oracleSharpe: 2.57 },
+  { signal: 'Corn / Northeast Heating Degree Days',          sharpe: 4.66, hitRate: 79, trades: 19, ciLow: 2.33, ciHigh: 8.90, oracleSharpe: 4.66 },
 ]
 
 // Score ≥ 2 Sharpe comparison (README only provides Sharpe at this tier, no trades/hit rate)
 // HO and CL recommended tier; RB and CORN are stronger at score=3.
 export const atlasScore2Sharpes = [
-  { signal: 'Heating Oil / NE HDD',   sharpeScore3: 0.83,  sharpeScore2: 1.99, read: 'score≥2 is the HO primary tier — regime gate filters the best HO weeks' },
-  { signal: 'RBOB Gasoline / NE HDD', sharpeScore3: 3.56,  sharpeScore2: 1.20, read: 'score=3 isolates the strongest RB weeks; bootstrap 5th %ile 0.76' },
-  { signal: 'Crude Oil / NE HDD',     sharpeScore3: 7.93,  sharpeScore2: 2.57, read: 'score=3 too thin (n=3); score≥2 is the CL primary tier' },
-  { signal: 'Corn / NE HDD',          sharpeScore3: 4.66,  sharpeScore2: 1.58, read: 'bootstrap 5th %ile 2.33 — lower bound comfortably above 2.0' },
+  { signal: 'Heating Oil / Northeast Heating Degree Days',   sharpeScore3: 0.83,  sharpeScore2: 1.99, read: 'score≥2 is the Heating Oil primary tier — regime gate filters the best weeks' },
+  { signal: 'RBOB Gasoline / Northeast Heating Degree Days', sharpeScore3: 3.56,  sharpeScore2: 1.20, read: 'score=3 isolates the strongest RBOB Gasoline weeks; bootstrap 5th percentile 0.76' },
+  { signal: 'Crude Oil / Northeast Heating Degree Days',     sharpeScore3: 7.93,  sharpeScore2: 2.57, read: 'score=3 too thin (n=3); score≥2 is the Crude Oil primary tier' },
+  { signal: 'Corn / Northeast Heating Degree Days',          sharpeScore3: 4.66,  sharpeScore2: 1.58, read: 'bootstrap 5th percentile 2.33 — lower bound comfortably above 2.0' },
 ]
 
 // 2022 strict OOS reference results (no activation filter, lag-0 strategy)
 // Showing raw signal power in the 2022 period — useful as a benchmark.
 export const atlasReferenceResults = [
-  { signal: 'Heating Oil / NE HDD',   sharpe: 4.42, ciLow: 1.16, ciHigh: 9.60,  hitRate: 83, trades: 18 },
-  { signal: 'RBOB Gasoline / NE HDD', sharpe: 5.22, ciLow: 3.17, ciHigh: 14.90, hitRate: 89, trades: 18 },
-  { signal: 'Crude Oil / NE HDD',     sharpe: 4.14, ciLow: 1.37, ciHigh: 8.43,  hitRate: 78, trades: 18 },
-  { signal: 'Corn / NE HDD',          sharpe: 5.11, ciLow: 3.33, ciHigh: 9.27,  hitRate: 78, trades: 18 },
+  { signal: 'Heating Oil / Northeast Heating Degree Days',   sharpe: 4.42, ciLow: 1.16, ciHigh: 9.60,  hitRate: 83, trades: 18 },
+  { signal: 'RBOB Gasoline / Northeast Heating Degree Days', sharpe: 5.22, ciLow: 3.17, ciHigh: 14.90, hitRate: 89, trades: 18 },
+  { signal: 'Crude Oil / Northeast Heating Degree Days',     sharpe: 4.14, ciLow: 1.37, ciHigh: 8.43,  hitRate: 78, trades: 18 },
+  { signal: 'Corn / Northeast Heating Degree Days',          sharpe: 5.11, ciLow: 3.33, ciHigh: 9.27,  hitRate: 78, trades: 18 },
 ]
 
 // AI model NE HDD z-score vs Heating Oil weekly return (OOS winter weeks, 2021+2022)
