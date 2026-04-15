@@ -174,9 +174,9 @@ body {
 .stats-strip {
   display: grid; grid-template-columns: repeat(4, 1fr);
   padding: 64px clamp(24px, 5vw, 80px);
-  background: rgba(13,19,51,0.78);
-  border-top: 1px solid rgba(59,125,255,0.07);
-  border-bottom: 1px solid rgba(59,125,255,0.07);
+  background: rgba(8,12,36,0.45);
+  border-top: 1px solid rgba(59,125,255,0.1);
+  border-bottom: 1px solid rgba(59,125,255,0.1);
 }
 .stats-strip .stat {
   text-align: center; padding: 20px;
@@ -250,7 +250,7 @@ body {
 /* ═══════════════════════════════════ EXPERTISE ═══════════════════════════════════ */
 .expertise {
   padding: 120px clamp(24px, 5vw, 80px);
-  background: linear-gradient(180deg, rgba(4,8,32,0.55) 0%, rgba(4,8,32,0.72) 100%);
+  background: transparent;
   position: relative;
 }
 .section-label {
@@ -269,7 +269,7 @@ body {
 /* ═══════════════════════════════════ APPROACH ═══════════════════════════════════ */
 .approach {
   padding: 120px clamp(24px, 5vw, 80px);
-  background: linear-gradient(135deg, rgba(18,48,160,0.82) 0%, rgba(40,85,230,0.74) 50%, rgba(26,68,204,0.82) 100%);
+  background: linear-gradient(135deg, rgba(18,48,160,0.55) 0%, rgba(40,85,230,0.48) 50%, rgba(26,68,204,0.55) 100%);
   position: relative; overflow: hidden;
 }
 .approach::before {

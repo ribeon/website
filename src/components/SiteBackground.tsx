@@ -19,13 +19,13 @@ type Star = {
 }
 
 // Parallax multiplier per layer (near layer moves most)
-const PARALLAX = [0.010, 0.024, 0.052] as const
+const PARALLAX = [0.015, 0.038, 0.075] as const
 // How many stars per layer
-const LAYER_COUNT = [240, 110, 55] as const
+const LAYER_COUNT = [280, 130, 65] as const
 // Star size range per layer [min, max]
-const LAYER_SIZE: [number, number][] = [[0.1, 0.45], [0.3, 0.85], [0.55, 1.4]]
+const LAYER_SIZE: [number, number][] = [[0.15, 0.55], [0.35, 1.0], [0.65, 1.8]]
 // Star opacity range per layer [min, max]
-const LAYER_ALPHA: [number, number][] = [[0.12, 0.38], [0.25, 0.55], [0.4, 0.75]]
+const LAYER_ALPHA: [number, number][] = [[0.3, 0.6], [0.45, 0.72], [0.6, 0.95]]
 
 export function SiteBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -67,7 +67,7 @@ export function SiteBackground() {
       // Star field: three depth layers
       stars = []
       for (let layer = 0; layer < 3; layer++) {
-        const count = Math.floor(LAYER_COUNT[layer] * (isMobile ? 0.55 : 1))
+        const count = Math.floor(LAYER_COUNT[layer] * (isMobile ? 0.7 : 1))
         for (let i = 0; i < count; i++) {
           const [sMin, sMax] = LAYER_SIZE[layer]
           const [aMin, aMax] = LAYER_ALPHA[layer]
