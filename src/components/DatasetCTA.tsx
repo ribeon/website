@@ -6,15 +6,14 @@ interface DatasetCTAProps {
 }
 
 export function DatasetCTA({
-  heading = 'Ready to integrate this dataset?',
-  subtext = 'Request a sample, discuss your use case, or see how it fits your research workflow.',
+  heading = 'Ready to get started?',
+  subtext = 'Get in touch to discuss how this dataset fits into your research workflow.',
 }: DatasetCTAProps) {
   return (
     <section style={{
       marginTop: '72px',
-      padding: '48px 40px',
-      background: 'linear-gradient(135deg, rgba(0,212,170,0.04), rgba(59,125,255,0.04))',
-      border: '1px solid rgba(0,212,170,0.15)',
+      padding: '52px 40px',
+      border: '1px solid rgba(0,212,170,0.12)',
       textAlign: 'center',
     }}>
       <h2 style={{
@@ -32,35 +31,18 @@ export function DatasetCTA({
         color: 'var(--muted)',
         marginBottom: '28px',
         lineHeight: 1.7,
-        maxWidth: '440px',
+        maxWidth: '380px',
         marginInline: 'auto',
       }}>
         {subtext}
       </p>
-      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Link
-          href="/contact"
-          className="btn-primary"
-          style={{ fontSize: '12px', padding: '13px 28px', color: '#080c24' }}
-        >
-          Request Sample →
-        </Link>
-        <Link
-          href="/contact"
-          className="btn-outline"
-          style={{ fontSize: '12px', padding: '13px 28px' }}
-        >
-          Talk to Us →
-        </Link>
-      </div>
-      <p style={{
-        fontSize: '11px',
-        color: 'var(--border)',
-        fontFamily: 'var(--font-mono)',
-        marginTop: '24px',
-      }}>
-        Ribeon provides data, not financial advice. Strategy construction is the buyer&apos;s domain.
-      </p>
+      <Link
+        href="/contact"
+        className="btn-primary"
+        style={{ fontSize: '12px', padding: '14px 36px', color: '#080c24' }}
+      >
+        Get in Touch →
+      </Link>
     </section>
   )
 }
