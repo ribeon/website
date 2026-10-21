@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prebuild": "node scripts/cloud-content.mjs",
+    "predev": "node scripts/cloud-content.mjs",
+    "cloud:content": "node scripts/cloud-content.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
