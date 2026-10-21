@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Build inputs fetched from GCS; never contain credentials.
 /src/lib/data/generated/
+
+# Temporary Google Actions credentials must never enter the deployment commit.
+/gha-creds-*.json
